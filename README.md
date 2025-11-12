@@ -1,42 +1,173 @@
-# Quack (HyprMX fork)
+# JSEngine
 
-Quack provides Java (Android and desktop) bindings to JavaScript engines. 
+JSEngine provides Java and Android bindings to JavaScript engines (QuickJS ES2020 and Duktape ES5.1) with **16KB page size support** for modern Android devices.
 
-The HyprmMX fork fixes a few compilation problems on the original project and is compiled to **support 16KB page sizes**.
+## Features
 
-1. QuickJS dependency was missing and the project wasn't compilable at all;
-2. AGP and Gradle wrapper version were so outdated we couldn't run a build;
-3. Kotlin version outdated.
+- **Dual JavaScript Engine Support**
+  - QuickJS (ES2020) - Modern, lightweight engine
+  - Duktape (ES5.1) - Legacy support
+- **16KB Page Alignment** - Compatible with Android devices requiring 16KB page sizes
+- **Automatic Type Coercion** - Seamless Java ↔ JavaScript type conversion
+- **Modern Build Configuration** - AGP 8.8.0, NDK 28.2.13676358, Gradle 8.10.2
 
-> [!IMPORTANT]
->
-> Bumping AGP and gradle versions was important to help supporting 16KB page sizes but also introduced a some other problems. Prefedined NDK version wasn't compatinble anymore with the `minSdkVersion` defined.
+## Maven Coordinates
 
-## Steps to update the project
+```gradle
+repositories {
+    mavenLocal()  // Or your Maven repository
+    google()
+    mavenCentral()
+}
 
-### Updating gradle build scrips
-
-1. Open up `quack/quack-android/build.gradle` and check
-   - `ndkVersion` ()
-   - Make sure `targetSdkVersion` and `compileSdkVersion` are the same
-   - Make sure minSdkVersion isn't lower than 17. Lower versions will make native code broken and uncompilable
-2. Open up `quack/quack-android/src/main/jni/CMakeLists.txt` and ensure the following line is there, to make the `*.so` files 16KB aligned
-
-```cmake
-target_link_options(quack PRIVATE "-Wl,-z,max-page-size=16384")
+dependencies {
+    implementation 'com.abc.core:jsengine:1.0.0'
+}
 ```
 
+## Quick Start
 
+```java
+import com.abc.core.jsengine.JSEngineContext;
 
-### Assemble the project
+// Create context (true = QuickJS, false = Duktape)
+try (JSEngineContext context = JSEngineContext.create(true)) {
+    // Execute JavaScript
+    Object result = context.evaluate("2 + 2");
+    System.out.println(result); // 4
 
-To assemble and get new artifacts we can either use Android Studio and `Build -> Make Project` or open up a terminal window and execute
+    // Call JavaScript functions
+    context.evaluate("function greet(name) { return 'Hello, ' + name; }");
+    Object greeting = context.call("greet", "World");
+    System.out.println(greeting); // "Hello, World"
+
+    // Pass Java objects to JavaScript
+    context.putJavaToJavaScriptCoercion(MyClass.class, myCoercion);
+}
+```
+
+## Building from Source
+
+### Prerequisites
+
+- Android Studio or Gradle 8.10.2+
+- NDK 28.2.13676358
+- JDK 8+
+
+### Build Commands
+
 ```bash
-./gradlew assemble
+# Clean build
+./gradlew clean
+
+# Build release AAR
+./gradlew :jsengine:jsengine-android:assembleRelease
+
+# Publish to local Maven repository
+./gradlew publishToMavenLocal
+
+# Run tests
+./gradlew :jsengine:jsengine-android:connectedAndroidTest
 ```
 
-> [!NOTE]
->
-> Make sure you're inside projects root directory to execute gradlew commands.
+### Output Artifacts
 
-Once the projects get assembled you can find `quack-android-release.aar` artifact inside `quack/quack-android/build/outputs/aar/`.
+After building, you'll find:
+- **AAR**: `jsengine/jsengine-android/build/outputs/aar/jsengine-android-release.aar`
+- **Maven**: `~/.m2/repository/com/abc/core/jsengine/1.0.0/`
+
+## 16KB Page Size Support
+
+This library is configured for 16KB page alignment, which is **critical for modern Android devices**:
+
+1. **Build Configuration** (`jsengine/jsengine-android/build.gradle`):
+   - `compileSdkVersion` and `targetSdkVersion` must match (35)
+   - `minSdkVersion` must be ≥ 21
+   - `ndkVersion "28.2.13676358"`
+
+2. **CMake Configuration** (`jsengine/jsengine-android/src/main/jni/CMakeLists.txt`):
+   ```cmake
+   target_link_options(${CMAKE_PROJECT_NAME} PRIVATE "-Wl,-z,max-page-size=16384")
+   ```
+
+## Architecture
+
+### Module Structure
+
+```
+jsengine/
+├── jsengine-java/        # Pure Java API implementation
+├── jsengine-jni/         # Native JNI bridge (C++)
+├── jsengine-android/     # Android library module (outputs AAR)
+└── JSEngine/             # Sample Android app
+```
+
+### Key Classes
+
+- **JSEngineContext** - Main API for JavaScript execution
+- **JavaScriptObject** - Proxy interface for JavaScript objects in Java
+- **JSEngineCoercion** - Custom type conversion rules
+
+## Type Coercion System
+
+JSEngine automatically converts between Java and JavaScript types:
+
+```java
+// Register custom coercion
+context.putJavaToJavaScriptCoercion(MyClass.class, (ctx, javaObj) -> {
+    // Convert Java object to JavaScript
+    return jsObject;
+});
+
+context.putJavaScriptToJavaCoercion(MyClass.class, (ctx, jsObj) -> {
+    // Convert JavaScript object to Java
+    return javaObject;
+});
+```
+
+## Memory Management
+
+JavaScript objects maintain references to native heap:
+
+```java
+// Always close context when done
+try (JSEngineContext context = JSEngineContext.create(true)) {
+    // Your code here
+} // Auto-closes
+
+// Or manually
+JSEngineContext context = JSEngineContext.create(true);
+try {
+    // Your code here
+} finally {
+    context.close();
+}
+
+// Force garbage collection
+context.gc();
+```
+
+## Attribution
+
+JSEngine is a modified version of [Quack](https://github.com/koush/quack) by Koushik Dutta.
+
+This product contains:
+- **Quack** - Copyright 2015 Koushik Dutta (Apache 2.0 License)
+- **QuickJS** - Copyright 2017-2021 Fabrice Bellard & Charlie Gordon (MIT License)
+- **Duktape** - Various contributors (MIT License)
+
+See [NOTICE](NOTICE) file for complete attribution.
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) file for details.
+
+## Modifications from Original Quack
+
+- Complete package refactoring: `com.koushikdutta.quack` → `com.abc.core.jsengine`
+- Class renaming: `Quack*` → `JSEngine*`
+- Module restructuring: `quack-*` → `jsengine-*`
+- Native library renaming: `libquack.so` → `libjsengine.so`
+- Maven publishing configuration
+- 16KB page size support enhancements
+- Updated build tools (AGP 8.8.0, NDK 28.2.13676358)
