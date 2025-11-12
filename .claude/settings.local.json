@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(cd:*)",
+      "Bash(cat:*)",
+      "Bash(while read file)",
+      "Bash(do sed -i '' 's/Java_com_koushikdutta_quack_QuackContext/Java_com_abc_core_jsengine_JSEngineContext/g' \"$file\" done)",
+      "Bash(find:*)",
+      "Bash(sed:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(./gradlew:*)",
+      "Bash(git checkout .)",
+      "Bash(cd /Users/eduardo/Android\\ Projects/jungroup/Quack && git reset HEAD quickjs/ update_quickjs.sh:*)",
+      "Bash(for:*)",
+      "Bash(do old=\"$pattern%:*\")",
+      "Bash(new=\"$pattern#*:\")",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
