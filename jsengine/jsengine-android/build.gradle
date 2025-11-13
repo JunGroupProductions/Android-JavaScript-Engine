@@ -72,15 +72,22 @@ android {
   }
 }
 
+// Task to generate sources JAR
+task androidSourcesJar(type: Jar) {
+  archiveClassifier.set('sources')
+  from android.sourceSets.main.java.srcDirs
+}
+
 afterEvaluate {
   publishing {
     publications {
       release(MavenPublication) {
         groupId = 'com.abc.core'
         artifactId = 'jsengine'
-        version = '1.0.0'
+        version = '1.0.3'
 
         artifact("$buildDir/outputs/aar/${project.name}-release.aar")
+        artifact androidSourcesJar
 
         pom {
           name = 'JSEngine'
