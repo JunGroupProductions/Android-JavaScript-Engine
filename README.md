@@ -74,7 +74,7 @@ try (JSEngineContext context = JSEngineContext.create(true)) {
 
 After building, you'll find:
 - **AAR**: `jsengine/jsengine-android/build/outputs/aar/jsengine-android-release.aar`
-- **Maven**: `~/.m2/repository/com/hyprmx/jsengine/jsengine/1.0.4/`
+- **Maven**: `~/.m2/repository/com/hyprmx/jsengine/jsengine/1.0.0/`
 
 ## 16KB Page Size Support
 

@@ -106,7 +106,7 @@ afterEvaluate {
       release(MavenPublication) {
         groupId = 'com.hyprmx.jsengine'
         artifactId = 'jsengine'
-        version = '1.0.4'
+        version = '1.0.0'
         artifact("$buildDir/outputs/aar/${project.name}-release.aar")
         artifact androidSourcesJar
 

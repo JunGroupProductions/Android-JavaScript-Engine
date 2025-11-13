@@ -26,8 +26,8 @@ JSEngine supports both the Duktape and QuickJS runtimes.
 Calling JSEngineContext.evaluate will return a Java Object with the evaluation result.
 
 ```java
-JSEngineContext quack = JSEngineContext.create();
-Object result = quack.evaluate(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+Object result = context.evaluate(javascriptString);
 System.out.println(result);
 // prints "hello"
 ```
@@ -42,8 +42,8 @@ System.out.println(result);
 ```
 #### Java
 ```java
-JSEngineContext quack = JSEngineContext.create();
-JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+JavaScriptObject result = context.evaluateForJavaScriptObject(javascriptString);
 System.out.println(result.call());
 // prints "hello"
 ```
@@ -59,8 +59,8 @@ System.out.println(result.call());
 ```
 #### Java
 ```java
-JSEngineContext quack = JSEngineContext.create();
-JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+JavaScriptObject result = context.evaluateForJavaScriptObject(javascriptString);
 System.out.println(result.call("hello"));
 // prints "hello world"
 ```
@@ -75,9 +75,9 @@ System.out.println('hello world');
 ```
 #### Java
 ```java
-JSEngineContext quack = JSEngineContext.create();
-quack.getGlobalObject().set("System", System.class);
-quack.evaluate(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+context.getGlobalObject().set("System", System.class);
+context.evaluate(javascriptString);
 // prints "hello world"
 ```
 
@@ -97,9 +97,9 @@ class Foo {
   }
 }
 
-JSEngineContext quack = JSEngineContext.create();
-JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
-quack.call(new Foo());
+JSEngineContext context = JSEngineContext.create();
+JavaScriptObject result = context.evaluateForJavaScriptObject(javascriptString);
+context.call(new Foo());
 // prints "hello world"
 ```
 
@@ -119,8 +119,8 @@ Runnable runnable = () -> {
   System.out.println("hello world");
 }
 
-JSEngineContext quack = JSEngineContext.create();
-JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+JavaScriptObject result = context.evaluateForJavaScriptObject(javascriptString);
 result.call(runnable);
 // prints "hello world"
 ```
@@ -144,8 +144,8 @@ interface Printer {
   print(String str);
 }
 
-JSEngineContext quack = JSEngineContext.create();
-Foo result = quack.evaluate(javascriptString, Foo.class);  
+JSEngineContext context = JSEngineContext.create();
+Foo result = context.evaluate(javascriptString, Foo.class);
 result.hello(str -> System.out.println(str));
 // prints "hello world"
 ```
@@ -164,9 +164,9 @@ class Foo {
   }
 }
 
-JSEngineContext quack = JSEngineContext.create();
-quack.getGlobalObject().set("Foo", Foo.class);
-quack.evaluate(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+context.getGlobalObject().set("Foo", Foo.class);
+context.evaluate(javascriptString);
 // prints "hello world"
 ```
 
@@ -185,9 +185,9 @@ class Foo {
   }
 }
 
-JSEngineContext quack = JSEngineContext.create();
-quack.getGlobalObject().set("JavaClass", Class.class);
-quack.evaluate(javascriptString);
+JSEngineContext context = JSEngineContext.create();
+context.getGlobalObject().set("JavaClass", Class.class);
+context.evaluate(javascriptString);
 // prints "hello world"
 ```
 
@@ -225,10 +225,10 @@ Types and methods can be coerced between runtimes.
 ```java
 class Foo {}
 
-JSEngineContext quack = JSEngineContext.create();
+JSEngineContext context = JSEngineContext.create();
 // all instances of Foo sent to JavaScript get coerced into the String "hello world"
-quack.putJavaToJavaScriptCoercion(Foo.class, (clazz, o) -> "hello world");
-System.out.println(quack.evaluateForJavaScriptObject.call(new Foo()));
+context.putJavaToJavaScriptCoercion(Foo.class, (clazz, o) -> "hello world");
+System.out.println(context.evaluateForJavaScriptObject.call(new Foo()));
 // prints "hello world"
 ```
 
@@ -252,11 +252,11 @@ System.out.println('set a breakpoint here!');
 
 ### Java
 ```java
-JSEngineContext quack = JSEngineContext.create();
-quack.getGlobalObject().set("System", System.class);
-quack.waitForDebugger("0.0.0.0:9091")
+JSEngineContext context = JSEngineContext.create();
+context.getGlobalObject().set("System", System.class);
+context.waitForDebugger("0.0.0.0:9091")
 // attach using VS Code
-quack.evaluate(javascriptString);
+context.evaluate(javascriptString);
 ```
 
 ## Attribution

@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(do sed 's/package com\\.abc\\.core\\.jsengine/package com.hyprmx.jsengine.jsengine/g; s/import com\\.abc\\.core\\.jsengine/import com.hyprmx.jsengine.jsengine/g; s/com\\.abc\\.core\\.jsengine\\.JSEngineTests/com.hyprmx.jsengine.jsengine.JSEngineTests/g' \"$file\")"
+      "Bash(do sed 's/package com\\.abc\\.core\\.jsengine/package com.hyprmx.jsengine.jsengine/g; s/import com\\.abc\\.core\\.jsengine/import com.hyprmx.jsengine.jsengine/g; s/com\\.abc\\.core\\.jsengine\\.JSEngineTests/com.hyprmx.jsengine.jsengine.JSEngineTests/g' \"$file\")",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
