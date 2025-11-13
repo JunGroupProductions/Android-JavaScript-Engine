@@ -40,6 +40,9 @@ android {
     }
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    // ProGuard rules for consumer apps
+    consumerProguardFiles 'consumer-proguard-rules.pro'
   }
   packagingOptions {
     jniLibs {
@@ -48,6 +51,8 @@ android {
   }
   buildTypes {
     release {
+      minifyEnabled false
+      // proguardFiles not needed - library is not minified, only consumer apps are
       externalNativeBuild {
         cmake {
           arguments '-DCMAKE_BUILD_TYPE=MinSizeRel'
