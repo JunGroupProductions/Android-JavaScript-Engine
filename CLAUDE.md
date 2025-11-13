@@ -136,6 +136,31 @@ JSEngine is Apache 2.0 licensed with proper attribution:
 - All modifications documented in NOTICE file
 - Derivative work status clearly identified
 
+## ProGuard/R8 Support
+
+JSEngine v1.0.4+ includes automatic ProGuard/R8 configuration:
+
+**Automatic Configuration:**
+- Consumer ProGuard rules bundled in AAR
+- Automatically applied to consuming apps
+- No manual configuration needed for library internals
+- See `PROGUARD.md` for details
+
+**What's Protected:**
+- JNI methods and callbacks
+- JavaScript-Java bridge classes
+- Interface method signatures
+- Exception handling
+
+**User Responsibilities:**
+- Add keep rules for YOUR custom classes passed to JavaScript
+- Keep rules for interfaces implemented by JavaScript
+- Test release builds with ProGuard enabled
+
+**Files:**
+- Library rules: `jsengine-android/proguard-rules.pro` (for building library)
+- Consumer rules: `jsengine-android/consumer-proguard-rules.pro` (bundled in AAR)
+
 ## 16KB Page Size Support
 
 **Critical for Android devices with 16KB page alignment.**
