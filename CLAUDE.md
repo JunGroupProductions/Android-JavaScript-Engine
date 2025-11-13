@@ -213,7 +213,7 @@ JavaScript objects maintain references to native heap:
 
 Native JNI methods follow the pattern:
 ```cpp
-Java_com_abc_core_jsengine_JSEngineContext_<methodName>
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_<methodName>
 ```
 
 When renaming classes or packages, update both:
