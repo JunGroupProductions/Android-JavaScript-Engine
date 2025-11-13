@@ -1,10 +1,10 @@
-# Quack
+# JSEngine
 
-Quack provides Java (Android and desktop) bindings to JavaScript engines. 
+JSEngine provides Java (Android and desktop) bindings to JavaScript engines. 
 
 ## Runtimes
 
-Quack supports both the Duktape and QuickJS runtimes.
+JSEngine supports both the Duktape and QuickJS runtimes.
 
 ## Features
 
@@ -23,10 +23,10 @@ Quack supports both the Duktape and QuickJS runtimes.
 
 #### Java:
 
-Calling QuackContext.evaluate will return a Java Object with the evaluation result.
+Calling JSEngineContext.evaluate will return a Java Object with the evaluation result.
 
 ```java
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 Object result = quack.evaluate(javascriptString);
 System.out.println(result);
 // prints "hello"
@@ -42,7 +42,7 @@ System.out.println(result);
 ```
 #### Java
 ```java
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
 System.out.println(result.call());
 // prints "hello"
@@ -59,7 +59,7 @@ System.out.println(result.call());
 ```
 #### Java
 ```java
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
 System.out.println(result.call("hello"));
 // prints "hello world"
@@ -75,7 +75,7 @@ System.out.println('hello world');
 ```
 #### Java
 ```java
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 quack.getGlobalObject().set("System", System.class);
 quack.evaluate(javascriptString);
 // prints "hello world"
@@ -97,7 +97,7 @@ class Foo {
   }
 }
 
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
 quack.call(new Foo());
 // prints "hello world"
@@ -119,7 +119,7 @@ Runnable runnable = () -> {
   System.out.println("hello world");
 }
 
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 JavaScriptObject result = quack.evaluateForJavaScriptObject(javascriptString);
 result.call(runnable);
 // prints "hello world"
@@ -144,7 +144,7 @@ interface Printer {
   print(String str);
 }
 
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 Foo result = quack.evaluate(javascriptString, Foo.class);  
 result.hello(str -> System.out.println(str));
 // prints "hello world"
@@ -164,7 +164,7 @@ class Foo {
   }
 }
 
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 quack.getGlobalObject().set("Foo", Foo.class);
 quack.evaluate(javascriptString);
 // prints "hello world"
@@ -185,7 +185,7 @@ class Foo {
   }
 }
 
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 quack.getGlobalObject().set("JavaClass", Class.class);
 quack.evaluate(javascriptString);
 // prints "hello world"
@@ -225,7 +225,7 @@ Types and methods can be coerced between runtimes.
 ```java
 class Foo {}
 
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 // all instances of Foo sent to JavaScript get coerced into the String "hello world"
 quack.putJavaToJavaScriptCoercion(Foo.class, (clazz, o) -> "hello world");
 System.out.println(quack.evaluateForJavaScriptObject.call(new Foo()));
@@ -243,7 +243,7 @@ JavaScriptObjects sent to the Java runtime will be deduped, so the same proxy in
 
 ## Debugging
 
-Install the appropriate [QuickJS Debugger](https://marketplace.visualstudio.com/items?itemName=koush.quickjs-debug) or [Duktape Debugger](https://marketplace.visualstudio.com/items?itemName=HaroldBrenes.duk-debug) for VS Code. QuickJS is the default runtime used by Quack.
+Install the appropriate [QuickJS Debugger](https://marketplace.visualstudio.com/items?itemName=koush.quickjs-debug) or [Duktape Debugger](https://marketplace.visualstudio.com/items?itemName=HaroldBrenes.duk-debug) for VS Code. QuickJS is the default runtime used by JSEngine.
 
 ### JavaScript
 ```javascript
@@ -252,13 +252,13 @@ System.out.println('set a breakpoint here!');
 
 ### Java
 ```java
-QuackContext quack = QuackContext.create();
+JSEngineContext quack = JSEngineContext.create();
 quack.getGlobalObject().set("System", System.class);
 quack.waitForDebugger("0.0.0.0:9091")
 // attach using VS Code
 quack.evaluate(javascriptString);
 ```
 
-## Square Duktape-Android
+## Attribution
 
-Quack was initially forked from Square's Duktape Android library. But it has been totally rewritten to suit different needs.
+JSEngine was refactored from Quack by Koushik Dutta (https://github.com/koush/quack), which was initially forked from Square's Duktape Android library.
