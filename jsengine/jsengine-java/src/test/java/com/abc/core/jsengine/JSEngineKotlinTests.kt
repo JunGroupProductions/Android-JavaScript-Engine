@@ -7,17 +7,17 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.startCoroutine
 
-class QuackKotlinTests {
+class JSEngineKotlinTests {
     companion object {
         init {
             // for non-android jvm
             try {
-                System.load(File("quack-jni/build/lib/main/debug/libquack-jni.dylib").canonicalPath);
+                System.load(File("jsengine-jni/build/lib/main/debug/libjsengine-jni.dylib").canonicalPath);
             }
             catch (e: Error) {
             }
             try {
-                System.load(File("../quack-jni/build/lib/main/debug/libquack-jni.dylib").canonicalPath);
+                System.load(File("../jsengine-jni/build/lib/main/debug/libjsengine-jni.dylib").canonicalPath);
             }
             catch (e: Error) {
             }
@@ -34,22 +34,22 @@ class QuackKotlinTests {
 
     @Test
     fun testArray() {
-        val quack = QuackContext.create()
-        val iface = quack.evaluate("(function() { return [() => 2, () => 3, () => 4, () => 5] })", ArrayInterface::class.java)
+        val context = JSEngineContext.create()
+        val iface = context.evaluate("(function() { return [() => 2, () => 3, () => 4, () => 5] })", ArrayInterface::class.java)
         var total = 0
         for (i in iface.numbers) {
             total += i.foo()
         }
         Assert.assertEquals(total.toLong(), 14)
-        quack.close()
+        context.close()
     }
 
     @Test
     fun testPromise() {
-        val quack = QuackContext.create();
+        val context = JSEngineContext.create();
 
         val script = "new Promise((resolve, reject) => { resolve('hello'); });"
-        val promise = quack.evaluate(script, JSEnginePromise::class.java)
+        val promise = context.evaluate(script, JSEnginePromise::class.java)
 //        val promise = jo.proxyInterface(JSEnginePromise::class.java)
 
         var ret = "world"
