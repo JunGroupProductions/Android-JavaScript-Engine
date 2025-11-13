@@ -1,4 +1,4 @@
-package com.hyprmx.android.quackjs
+package com.abc.android.jsengine
 
 import org.junit.Test
 
