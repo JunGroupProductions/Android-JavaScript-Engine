@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 Koushik Dutta
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.abc.core.jsengine;
 
 import java.nio.ByteBuffer;
@@ -5,10 +20,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class JSValue implements JSEngineJavaObject {
-    JSEngineContext quack;
+    JSEngineContext jsEngineContext;
     Object value;
-    JSValue(JSEngineContext quack, Object value) {
-        this.quack = quack;
+    JSValue(JSEngineContext jsEngineContext, Object value) {
+        this.jsEngineContext = jsEngineContext;
         this.value = value;
     }
 
@@ -38,11 +53,11 @@ public class JSValue implements JSEngineJavaObject {
     }
 
     public <T> T as(Class<T> clazz) {
-        return (T)quack.coerceJavaScriptToJava(clazz, value);
+        return (T)jsEngineContext.coerceJavaScriptToJava(clazz, value);
     }
 
     public <T> Iterable<T> asIterable(Class<T> clazz) {
-        JSValue iteratorSymbol = quack.evaluateForJavaScriptObject("Symbol").asJSValue().get("iterator");
+        JSValue iteratorSymbol = jsEngineContext.evaluateForJavaScriptObject("Symbol").asJSValue().get("iterator");
         JSValue iteratorFunc = get(iteratorSymbol);
         JSValue iterator = iteratorFunc.apply(this);
         JSValue iteratorNext = iterator.get("next");
@@ -73,30 +88,30 @@ public class JSValue implements JSEngineJavaObject {
         };
     }
 
-    private JSEngineObject quackify() {
+    private JSEngineObject jsEngineContextify() {
         if (value instanceof JSEngineObject)
             return (JSEngineObject)value;
-        return new JavaObject(quack, value);
+        return new JavaObject(jsEngineContext, value);
     }
 
     public JSValue get(Object key) {
-        return new JSValue(quack, quackify().get(key));
+        return new JSValue(jsEngineContext, jsEngineContextify().get(key));
     }
 
     public boolean set(Object key, Object value) {
-        return quackify().set(key, value);
+        return jsEngineContextify().set(key, value);
     }
 
     public boolean has(Object key) {
-        return quackify().has(key);
+        return jsEngineContextify().has(key);
     }
 
     public JSValue apply(Object thiz, Object... args) {
-        return new JSValue(quack, quackify().callMethod(thiz, args));
+        return new JSValue(jsEngineContext, jsEngineContextify().callMethod(thiz, args));
     }
 
     public JSValue construct(Object... args) {
-        return new JSValue(quack, quackify().construct(args));
+        return new JSValue(jsEngineContext, jsEngineContextify().construct(args));
     }
 
     @Override

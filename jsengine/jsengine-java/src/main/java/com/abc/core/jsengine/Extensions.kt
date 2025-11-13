@@ -13,7 +13,7 @@ suspend fun JSEnginePromise.await(): Any {
                 if (it !is JavaScriptObject)
                     throw JSEngineException("JavaScript Error type not thrown")
                 val jo: JavaScriptObject = it
-                jo.quackContext.evaluateForJavaScriptObject("(function(t) { throw t; })").call(it);
+                jo.jsEngineContext.evaluateForJavaScriptObject("(function(t) { throw t; })").call(it);
             }
             catch (e: Throwable) {
                 resume.resumeWithException(e)

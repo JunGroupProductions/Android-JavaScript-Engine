@@ -438,15 +438,15 @@ public final class JSEngineContext implements Closeable {
    */
   private boolean useQuickJS;
   public static JSEngineContext create(boolean useQuickJS) {
-    JSEngineContext quack = new JSEngineContext(useQuickJS);
+    JSEngineContext instance = new JSEngineContext(useQuickJS);
     // context will hold a weak ref, so this doesn't matter if it fails.
-    long context = createContext(quack, useQuickJS);
+    long context = createContext(instance, useQuickJS);
     if (context == 0) {
       throw new OutOfMemoryError("Cannot create Duktape instance");
     }
-    quack.context = context;
-    quack.useQuickJS = useQuickJS;
-    return quack;
+    instance.context = context;
+    instance.useQuickJS = useQuickJS;
+    return instance;
   }
 
   public static JSEngineContext create() {
@@ -463,7 +463,7 @@ public final class JSEngineContext implements Closeable {
       return Enum.valueOf(clazz, o.toString());
     });
 
-    // coerce JavaScript Numbers. quack supports ints and doubles natively.
+    // coerce JavaScript Numbers. JSEngine supports ints and doubles natively.
     putJavaScriptToJavaCoercion(Byte.class, (clazz, o) -> o instanceof Number ? ((Number)o).byteValue() : o instanceof String ? Byte.parseByte(o.toString()) : (Byte)o);
     JavaScriptToJavaCoercions.put(byte.class, (clazz, o) -> o instanceof Number ? ((Number)o).byteValue() : o instanceof String ? Byte.parseByte(o.toString()) : o);
     // bytes become ints
@@ -868,26 +868,26 @@ public final class JSEngineContext implements Closeable {
   }
 
   // hooks from js/jni to java
-  private Object quackGet(JSEngineObject quackObject, Object key) {
-    return quackObject.get(key);
+  private Object proxyGet(JSEngineObject jsEngineObject, Object key) {
+    return jsEngineObject.get(key);
   }
-  private boolean quackHas(JSEngineObject quackObject, Object key) {
-    return quackObject.has(key);
+  private boolean proxyHas(JSEngineObject jsEngineObject, Object key) {
+    return jsEngineObject.has(key);
   }
-  private boolean quackSet(JSEngineObject quackObject, Object key, Object value) {
-    return quackObject.set(key, value);
+  private boolean proxySet(JSEngineObject jsEngineObject, Object key, Object value) {
+    return jsEngineObject.set(key, value);
   }
   private Object[] empty = new Object[0];
-  private Object quackApply(JSEngineObject quackObject, Object thiz, Object... args) {
-    return quackObject.callMethod(thiz, args == null ? empty : args);
+  private Object proxyApply(JSEngineObject jsEngineObject, Object thiz, Object... args) {
+    return jsEngineObject.callMethod(thiz, args == null ? empty : args);
   }
-  private Object quackConstruct(JSEngineObject quackObject, Object... args) {
-    return quackObject.construct(args == null ? empty : args);
+  private Object proxyConstruct(JSEngineObject jsEngineObject, Object... args) {
+    return jsEngineObject.construct(args == null ? empty : args);
   }
-  synchronized public void quackMapNative(Object key, Object value) {
+  synchronized public void mapNative(Object key, Object value) {
     nativeMappings.put(key, value);
   }
-  public Object quackUnmapNative(Object key) {
+  public Object unmapNative(Object key) {
     return nativeMappings.get(key);
   }
   synchronized public int purgeNativeMappings() {
@@ -896,10 +896,10 @@ public final class JSEngineContext implements Closeable {
   synchronized public int getMappedNativeCount() {
     return nativeMappings.size();
   }
-  private long getNativePointer(JSEngineJavaScriptObject quackJavaScriptObject) {
-    if (quackJavaScriptObject.getNativeContext() != context)
+  private long getNativePointer(JSEngineJavaScriptObject jsEngineJavaScriptObject) {
+    if (jsEngineJavaScriptObject.getNativeContext() != context)
       return 0;
-    return quackJavaScriptObject.getNativePointer();
+    return jsEngineJavaScriptObject.getNativePointer();
   }
 
   public void gc() {
@@ -915,7 +915,7 @@ public final class JSEngineContext implements Closeable {
 
   private static native long getHeapSize(long context);
 
-  private static native long createContext(JSEngineContext quackContext, boolean useQuickJS);
+  private static native long createContext(JSEngineContext jsEngineContext, boolean useQuickJS);
   private static native void destroyContext(long context);
   private static native Object evaluate(long context, String sourceCode, String fileName);
   private static native Object evaluateModule(long context, String sourceCode, String fileName);

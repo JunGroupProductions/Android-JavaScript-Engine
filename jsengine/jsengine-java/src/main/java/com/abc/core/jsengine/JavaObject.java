@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 Koushik Dutta
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.abc.core.jsengine;
 
 import java.lang.reflect.*;
@@ -10,10 +25,10 @@ import static com.abc.core.jsengine.JSEngineContext.isEmpty;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
     private final Object target;
-    private final JSEngineContext quackContext;
+    private final JSEngineContext jsEngineContext;
 
-    public JavaObject(JSEngineContext quackContext, Object target) {
-        this.quackContext = quackContext;
+    public JavaObject(JSEngineContext jsEngineContext, Object target) {
+        this.jsEngineContext = jsEngineContext;
         this.target = target;
     }
 
@@ -113,7 +128,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
 
             if (f != null) {
                 try {
-                    return quackContext.coerceJavaToJavaScript(f.get(target));
+                    return jsEngineContext.coerceJavaToJavaScript(f.get(target));
                 } catch (IllegalAccessException e) {
                     throw new IllegalArgumentException(e);
                 }
@@ -123,7 +138,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
         Method g = getGetterMethod(key, clazz.getMethods());
         if (g != null) {
             try {
-                return quackContext.coerceJavaToJavaScript(g.invoke(target));
+                return jsEngineContext.coerceJavaToJavaScript(g.invoke(target));
             }
             catch (Exception e) {
                 throw new IllegalArgumentException(e);
@@ -139,7 +154,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
         }, key, clazz.getMethods());
 
         if (m)
-            return new JavaMethodObject(quackContext, target, key);
+            return new JavaMethodObject(jsEngineContext, target, key);
 
         return null;
     }
@@ -154,7 +169,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
 
     private Object getMap(Object key) {
         if (target instanceof Map)
-            return quackContext.coerceJavaToJavaScript(((Map)target).get(key));
+            return jsEngineContext.coerceJavaToJavaScript(((Map)target).get(key));
         return null;
     }
 
@@ -205,7 +220,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
         Field f = findField(key, clazz);
         if (f != null) {
             try {
-                f.set(target, quackContext.coerceJavaScriptToJava(f.getType(), value));
+                f.set(target, jsEngineContext.coerceJavaScriptToJava(f.getType(), value));
                 return true;
             } catch (IllegalAccessException e) {
                 throw new IllegalArgumentException(e);
@@ -215,7 +230,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
         Method s = getSetterMethod(key, clazz.getMethods());
         if (s != null) {
             try {
-                quackContext.coerceJavaToJavaScript(s.invoke(target, quackContext.coerceJavaScriptToJava(s.getParameterTypes()[0], value)));
+                jsEngineContext.coerceJavaToJavaScript(s.invoke(target, jsEngineContext.coerceJavaScriptToJava(s.getParameterTypes()[0], value)));
             }
             catch (Exception e) {
                 throw new IllegalArgumentException(e);
@@ -319,7 +334,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
             int i = 0;
             for (; i < numParameters; i++) {
                 if (i < args.length)
-                    coerced.add(quackContext.coerceJavaScriptToJava(best.getParameterTypes()[i], args[i]));
+                    coerced.add(jsEngineContext.coerceJavaScriptToJava(best.getParameterTypes()[i], args[i]));
                 else
                     coerced.add(null);
             }
@@ -327,14 +342,14 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
                 Class varargType = best.getParameterTypes()[numParameters].getComponentType();
                 ArrayList<Object> varargs = new ArrayList<>();
                 for (; i < args.length; i++) {
-                    varargs.add(quackContext.coerceJavaScriptToJava(varargType, args[i]));
+                    varargs.add(jsEngineContext.coerceJavaScriptToJava(varargType, args[i]));
                 }
                 coerced.add(JavaMethodObject.toArray(varargType, varargs));
             }
             else if (i < args.length) {
                 System.err.println("dropping javascript to java arguments on the floor: " + (args.length - i) + " " + best.toString());
             }
-            return quackContext.coerceJavaToJavaScript(best.newInstance(coerced.toArray()));
+            return jsEngineContext.coerceJavaToJavaScript(best.newInstance(coerced.toArray()));
         }
         catch (IllegalAccessException e) {
             throw new IllegalArgumentException(best.toString(), e);

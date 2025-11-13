@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 Koushik Dutta
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.abc.core.jsengine;
 
 //import android.util.Log;
@@ -11,10 +26,10 @@ import java.util.Collections;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JavaMethodObject implements JSEngineMethodObject {
     String target;
-    JSEngineContext quackContext;
+    JSEngineContext jsEngineContext;
     Object originalThis;
-    public JavaMethodObject(JSEngineContext quackContext, Object originalThis, String method) {
-        this.quackContext = quackContext;
+    public JavaMethodObject(JSEngineContext jsEngineContext, Object originalThis, String method) {
+        this.jsEngineContext = jsEngineContext;
         this.originalThis = originalThis;
         this.target = method;
     }
@@ -40,7 +55,7 @@ public class JavaMethodObject implements JSEngineMethodObject {
             thiz = originalThis;
         if (thiz == null)
             throw new UnsupportedOperationException("can not call " + target);
-        thiz = quackContext.coerceJavaScriptToJava(Object.class, thiz);
+        thiz = jsEngineContext.coerceJavaScriptToJava(Object.class, thiz);
 
         Method[] thisMethods = getMethods(thiz);
         ArrayList<Class> argTypes = new ArrayList<>();
@@ -94,7 +109,7 @@ public class JavaMethodObject implements JSEngineMethodObject {
 
         try {
             Method interfaceMethod = JSEngineContext.getInterfaceMethod(best);
-            JSEngineMethodCoercion methodCoercion = quackContext.JavaScriptToJavaMethodCoercions.get(interfaceMethod);
+            JSEngineMethodCoercion methodCoercion = jsEngineContext.JavaScriptToJavaMethodCoercions.get(interfaceMethod);
             if (methodCoercion != null)
                 return methodCoercion.invoke(interfaceMethod, thiz, args);
 
@@ -105,7 +120,7 @@ public class JavaMethodObject implements JSEngineMethodObject {
             int i = 0;
             for (; i < numParameters; i++) {
                 if (i < args.length)
-                    coerced.add(quackContext.coerceJavaScriptToJava(best.getParameterTypes()[i], args[i]));
+                    coerced.add(jsEngineContext.coerceJavaScriptToJava(best.getParameterTypes()[i], args[i]));
                 else
                     coerced.add(null);
             }
@@ -113,7 +128,7 @@ public class JavaMethodObject implements JSEngineMethodObject {
                 Class varargType = best.getParameterTypes()[numParameters].getComponentType();
                 ArrayList<Object> varargs = new ArrayList<>();
                 for (; i < args.length; i++) {
-                    varargs.add(quackContext.coerceJavaScriptToJava(varargType, args[i]));
+                    varargs.add(jsEngineContext.coerceJavaScriptToJava(varargType, args[i]));
                 }
                 coerced.add(toArray(varargType, varargs));
             }
@@ -121,7 +136,7 @@ public class JavaMethodObject implements JSEngineMethodObject {
                 System.err.println("dropping javascript to java arguments on the floor: " + (args.length - i) + " " + best.toString());
             }
 //            System.out.println(best.getDeclaringClass().getSimpleName() + "." + best.getName());
-            return quackContext.coerceJavaToJavaScript(best.invoke(thiz, coerced.toArray()));
+            return jsEngineContext.coerceJavaToJavaScript(best.invoke(thiz, coerced.toArray()));
         }
         catch (RuntimeException e) {
             throw e;

@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 Koushik Dutta
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.abc.core.jsengine;
 
 import java.lang.reflect.Array;
@@ -10,11 +25,11 @@ import java.util.Collections;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObject {
-    final public JSEngineContext quackContext;
+    final public JSEngineContext jsEngineContext;
     public final long context;
     final public long pointer;
-    public JavaScriptObject(JSEngineContext quackContext, long context, long pointer) {
-        this.quackContext = quackContext;
+    public JavaScriptObject(JSEngineContext jsEngineContext, long context, long pointer) {
+        this.jsEngineContext = jsEngineContext;
         this.context = context;
         this.pointer = pointer;
     }
@@ -40,40 +55,40 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
     }
 
     public <T> T constructCoerced(Class<T> clazz, Object... args) {
-        quackContext.coerceJavaArgsToJavaScript(args);
-        return (T)quackContext.coerceJavaScriptToJava(clazz, quackContext.callConstructor(pointer, args));
+        jsEngineContext.coerceJavaArgsToJavaScript(args);
+        return (T)jsEngineContext.coerceJavaScriptToJava(clazz, jsEngineContext.callConstructor(pointer, args));
     }
 
     public String typeof() {
-        return (String)quackContext.evaluateForJavaScriptObject("(function(f) { return typeof f; })").call(this);
+        return (String)jsEngineContext.evaluateForJavaScriptObject("(function(f) { return typeof f; })").call(this);
     }
 
     public String stringify() {
-        return quackContext.stringify(pointer);
+        return jsEngineContext.stringify(pointer);
     }
 
     public Object get(String key) {
-        return quackContext.coerceJavaScriptToJava(null, quackContext.getKeyString(pointer, key));
+        return jsEngineContext.coerceJavaScriptToJava(null, jsEngineContext.getKeyString(pointer, key));
     }
 
     public Object get(int index) {
-        return quackContext.coerceJavaScriptToJava(null, quackContext.getKeyInteger(pointer, index));
+        return jsEngineContext.coerceJavaScriptToJava(null, jsEngineContext.getKeyInteger(pointer, index));
     }
 
     public Object call(Object... args) {
-        quackContext.coerceJavaArgsToJavaScript(args);
-        return quackContext.coerceJavaScriptToJava(null, quackContext.call(pointer, args));
+        jsEngineContext.coerceJavaArgsToJavaScript(args);
+        return jsEngineContext.coerceJavaScriptToJava(null, jsEngineContext.call(pointer, args));
     }
 
     @Override
     public Object callMethod(Object thiz, Object... args) {
-        quackContext.coerceJavaArgsToJavaScript(args);
-        return quackContext.coerceJavaScriptToJava(null, quackContext.callMethod(pointer, quackContext.coerceJavaToJavaScript(thiz), args));
+        jsEngineContext.coerceJavaArgsToJavaScript(args);
+        return jsEngineContext.coerceJavaScriptToJava(null, jsEngineContext.callMethod(pointer, jsEngineContext.coerceJavaToJavaScript(thiz), args));
     }
 
     public Object callProperty(Object property, Object... args) {
-        quackContext.coerceJavaArgsToJavaScript(args);
-        return quackContext.coerceJavaScriptToJava(null, quackContext.callProperty(pointer, property, args));
+        jsEngineContext.coerceJavaArgsToJavaScript(args);
+        return jsEngineContext.coerceJavaScriptToJava(null, jsEngineContext.callProperty(pointer, property, args));
     }
 
     @Override
@@ -87,15 +102,15 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
                 return get(number.intValue());
         }
 
-        return quackContext.coerceJavaScriptToJava(null, quackContext.getKeyObject(pointer, quackContext.coerceJavaToJavaScript(key)));
+        return jsEngineContext.coerceJavaScriptToJava(null, jsEngineContext.getKeyObject(pointer, jsEngineContext.coerceJavaToJavaScript(key)));
     }
 
     public boolean set(String key, Object value) {
-        return quackContext.setKeyString(pointer, key, value);
+        return jsEngineContext.setKeyString(pointer, key, value);
     }
 
     public boolean set(int index, Object value) {
-        return quackContext.setKeyInteger(pointer, index, value);
+        return jsEngineContext.setKeyInteger(pointer, index, value);
     }
 
     @Override
@@ -111,7 +126,7 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
             }
         }
 
-        return quackContext.setKeyObject(pointer, key, value);
+        return jsEngineContext.setKeyObject(pointer, key, value);
     }
 
     @Override
@@ -122,7 +137,7 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
         return ret.toString();
     }
 
-    static Object[] coerceArgs(JSEngineContext quackContext, Method method, Object[] args) {
+    static Object[] coerceArgs(JSEngineContext jsEngineContext, Method method, Object[] args) {
         if (args != null && args.length > 0) {
             Class[] types = method.getParameterTypes();
 
@@ -134,7 +149,7 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
                 numParameters--;
 
             for (int i = 0; i < numParameters; i++) {
-                args[i] = quackContext.coerceJavaToJavaScript(types[i], args[i]);
+                args[i] = jsEngineContext.coerceJavaToJavaScript(types[i], args[i]);
             }
 
             if (method.isVarArgs()) {
@@ -143,7 +158,7 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
                 Object varargArg = args[numParameters];
                 for (int i = 0; i < Array.getLength(varargArg); i++) {
                     Object vararg = Array.get(varargArg, i);
-                    varargs.add(quackContext.coerceJavaScriptToJava(varargType, vararg));
+                    varargs.add(jsEngineContext.coerceJavaScriptToJava(varargType, vararg));
                 }
                 args = varargs.toArray();
             }
@@ -153,7 +168,7 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
     }
 
     public InvocationHandler getWrappedInvocationHandler(InvocationHandler wrapped) {
-        return quackContext.getWrappedInvocationHandler(this, (proxy, method, args) -> {
+        return jsEngineContext.getWrappedInvocationHandler(this, (proxy, method, args) -> {
             if (method.getDeclaringClass() == JSEngineJavaScriptObject.class)
                 return method.invoke(JavaScriptObject.this, args);
 
@@ -164,15 +179,15 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
     public InvocationHandler createInvocationHandler() {
         InvocationHandler handler = (proxy, method, args) -> {
             Method interfaceMethod = JSEngineContext.getInterfaceMethod(method);
-            JSEngineMethodCoercion methodCoercion = quackContext.JavaToJavascriptMethodCoercions.get(interfaceMethod);
+            JSEngineMethodCoercion methodCoercion = jsEngineContext.JavaToJavascriptMethodCoercions.get(interfaceMethod);
             if (methodCoercion != null)
                 return methodCoercion.invoke(interfaceMethod, this, args);
 
             JSEngineProperty property = method.getAnnotation(JSEngineProperty.class);
             if (property != null) {
                 if (args == null || args.length == 0)
-                    return quackContext.coerceJavaScriptToJava(method.getReturnType(), JavaScriptObject.this.get(property.name()));
-                JavaScriptObject.this.set(property.name(), quackContext.coerceJavaScriptToJava(method.getParameterTypes()[0], args[0]));
+                    return jsEngineContext.coerceJavaScriptToJava(method.getReturnType(), JavaScriptObject.this.get(property.name()));
+                JavaScriptObject.this.set(property.name(), jsEngineContext.coerceJavaScriptToJava(method.getParameterTypes()[0], args[0]));
                 return null;
             }
 
@@ -181,7 +196,7 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
             if (annotation != null)
                 methodName = annotation.name();
 
-            return quackContext.coerceJavaScriptToJava(method.getReturnType(), JavaScriptObject.this.callProperty(methodName, coerceArgs(quackContext, method, args)));
+            return jsEngineContext.coerceJavaScriptToJava(method.getReturnType(), JavaScriptObject.this.callProperty(methodName, coerceArgs(jsEngineContext, method, args)));
         };
 
         return getWrappedInvocationHandler(handler);
@@ -200,11 +215,11 @@ public class JavaScriptObject implements JSEngineObject, JSEngineJavaScriptObjec
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        if (quackContext != null)
-            quackContext.finalizeJavaScriptObject(pointer);
+        if (jsEngineContext != null)
+            jsEngineContext.finalizeJavaScriptObject(pointer);
     }
 
     public JSValue asJSValue() {
-        return new JSValue(quackContext, this);
+        return new JSValue(jsEngineContext, this);
     }
 }

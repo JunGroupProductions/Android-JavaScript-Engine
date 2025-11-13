@@ -72,6 +72,23 @@ android {
   }
 }
 
+// Task to copy license files into AAR assets
+task copyLicenseFiles(type: Copy) {
+  from("${rootDir}/LICENSE") {
+    rename { "LICENSE" }
+  }
+  from("${rootDir}/NOTICE") {
+    rename { "NOTICE" }
+  }
+  from("${rootDir}/THIRD_PARTY_LICENSES") {
+    rename { "THIRD_PARTY_LICENSES" }
+  }
+  into "${projectDir}/src/main/assets/licenses"
+}
+
+// Ensure license files are copied before building
+preBuild.dependsOn copyLicenseFiles
+
 // Task to generate sources JAR
 task androidSourcesJar(type: Jar) {
   archiveClassifier.set('sources')
@@ -84,8 +101,7 @@ afterEvaluate {
       release(MavenPublication) {
         groupId = 'com.abc.core'
         artifactId = 'jsengine'
-        version = '1.0.3'
-
+        version = '1.0.4'
         artifact("$buildDir/outputs/aar/${project.name}-release.aar")
         artifact androidSourcesJar
 

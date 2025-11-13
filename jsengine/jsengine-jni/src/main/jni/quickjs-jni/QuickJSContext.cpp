@@ -190,40 +190,40 @@ QuickJSContext::QuickJSContext(JavaVM* javaVM, jobject javaQuack):
     bufferClear = env->GetMethodID(bufferClass, "clear", "()Ljava/nio/Buffer;");
     env->DeleteLocalRef(bufferClass);
 
-    // Quack
-    quackClass = findClass(env, "com/abc/core/jsengine/QuackContext");
-    quackHasMethod = env->GetMethodID(quackClass, "quackHas", "(Lcom/abc/core/jsengine/QuackObject;Ljava/lang/Object;)Z");
-    quackGetMethod = env->GetMethodID(quackClass, "quackGet", "(Lcom/abc/core/jsengine/QuackObject;Ljava/lang/Object;)Ljava/lang/Object;");
-    quackSetMethod = env->GetMethodID(quackClass, "quackSet", "(Lcom/abc/core/jsengine/QuackObject;Ljava/lang/Object;Ljava/lang/Object;)Z");
-    quackApplyMethod = env->GetMethodID(quackClass, "quackApply", "(Lcom/abc/core/jsengine/QuackObject;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;");
-    quackConstructMethod = env->GetMethodID(quackClass, "quackConstruct", "(Lcom/abc/core/jsengine/QuackObject;[Ljava/lang/Object;)Ljava/lang/Object;");
-    quackMapNativeMethod = env->GetMethodID(quackClass, "quackMapNative", "(Ljava/lang/Object;Ljava/lang/Object;)V");
-    quackUnmapNativeMethod = env->GetMethodID(quackClass, "quackUnmapNative", "(Ljava/lang/Object;)Ljava/lang/Object;");
-    quackGetNativePointer = env->GetMethodID(quackClass, "getNativePointer", "(Lcom/abc/core/jsengine/QuackJavaScriptObject;)J");
+    // JSEngine proxy callbacks
+    quackClass = findClass(env, "com/abc/core/jsengine/JSEngineContext");
+    quackHasMethod = env->GetMethodID(quackClass, "proxyHas", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;)Z");
+    quackGetMethod = env->GetMethodID(quackClass, "proxyGet", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;)Ljava/lang/Object;");
+    quackSetMethod = env->GetMethodID(quackClass, "proxySet", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;Ljava/lang/Object;)Z");
+    quackApplyMethod = env->GetMethodID(quackClass, "proxyApply", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;");
+    quackConstructMethod = env->GetMethodID(quackClass, "proxyConstruct", "(Lcom/abc/core/jsengine/JSEngineObject;[Ljava/lang/Object;)Ljava/lang/Object;");
+    quackMapNativeMethod = env->GetMethodID(quackClass, "mapNative", "(Ljava/lang/Object;Ljava/lang/Object;)V");
+    quackUnmapNativeMethod = env->GetMethodID(quackClass, "unmapNative", "(Ljava/lang/Object;)Ljava/lang/Object;");
+    quackGetNativePointer = env->GetMethodID(quackClass, "getNativePointer", "(Lcom/abc/core/jsengine/JSEngineJavaScriptObject;)J");
 
-    quackObjectClass = findClass(env, "com/abc/core/jsengine/QuackObject");
+    quackObjectClass = findClass(env, "com/abc/core/jsengine/JSEngineObject");
 
     // QuackJsonObject
-    quackjsonObjectClass = findClass(env, "com/abc/core/jsengine/QuackJsonObject");
+    quackjsonObjectClass = findClass(env, "com/abc/core/jsengine/JSEngineJsonObject");
     quackJsonField = env->GetFieldID(quackjsonObjectClass, "json", "Ljava/lang/String;");
 
     // JavaScriptObject
     javaScriptObjectClass = findClass(env, "com/abc/core/jsengine/JavaScriptObject");
-    javaScriptObjectConstructor = env->GetMethodID(javaScriptObjectClass, "<init>", "(Lcom/abc/core/jsengine/QuackContext;JJ)V");
+    javaScriptObjectConstructor = env->GetMethodID(javaScriptObjectClass, "<init>", "(Lcom/abc/core/jsengine/JSEngineContext;JJ)V");
 
     // QuackJavaScriptObject (interface, which can be implemented by proxies)
-    quackJavaScriptObjectClass = findClass(env, "com/abc/core/jsengine/QuackJavaScriptObject");
+    quackJavaScriptObjectClass = findClass(env, "com/abc/core/jsengine/JSEngineJavaScriptObject");
 
     // JavaObject
     javaObjectClass = findClass(env, "com/abc/core/jsengine/JavaObject");
-    javaObjectConstructor = env->GetMethodID(javaObjectClass, "<init>", "(Lcom/abc/core/jsengine/QuackContext;Ljava/lang/Object;)V");
+    javaObjectConstructor = env->GetMethodID(javaObjectClass, "<init>", "(Lcom/abc/core/jsengine/JSEngineContext;Ljava/lang/Object;)V");
 
     // QuackJavaObject
-    quackJavaObject = findClass(env, "com/abc/core/jsengine/QuackJavaObject");
+    quackJavaObject = findClass(env, "com/abc/core/jsengine/JSEngineJavaObject");
     quackJavaObjectGetObject = env->GetMethodID(quackJavaObject, "getObject", "()Ljava/lang/Object;");
 
     // exceptions
-    quackExceptionClass = findClass(env, "com/abc/core/jsengine/QuackException");
+    quackExceptionClass = findClass(env, "com/abc/core/jsengine/JSEngineException");
     addJSStack =env->GetStaticMethodID(quackExceptionClass, "addJSStack","(Ljava/lang/Throwable;Ljava/lang/String;)V");
     addJavaStack = env->GetStaticMethodID(quackExceptionClass, "addJavaStack", "(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/lang/String;");
 }
