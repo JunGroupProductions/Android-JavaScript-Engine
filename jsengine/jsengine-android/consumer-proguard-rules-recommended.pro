@@ -6,57 +6,57 @@
 # ==============================================================================
 
 # Keep all public API - this is what users interact with
--keep public class com.abc.core.jsengine.** {
+-keep public class com.hyprmx.jsengine.jsengine.** {
     public *;
 }
 
 # Keep all interfaces - needed for JavaScript proxying
--keep interface com.abc.core.jsengine.** { *; }
+-keep interface com.hyprmx.jsengine.jsengine.** { *; }
 
 # CRITICAL: Keep JNI callback methods even if private
 # These MUST match exact names expected by native code
--keepclassmembers class com.abc.core.jsengine.JSEngineContext {
-    private java.lang.Object proxyGet(com.abc.core.jsengine.JSEngineObject, java.lang.Object);
-    private boolean proxyHas(com.abc.core.jsengine.JSEngineObject, java.lang.Object);
-    private boolean proxySet(com.abc.core.jsengine.JSEngineObject, java.lang.Object, java.lang.Object);
-    private java.lang.Object proxyApply(com.abc.core.jsengine.JSEngineObject, java.lang.Object, java.lang.Object[]);
-    private java.lang.Object proxyConstruct(com.abc.core.jsengine.JSEngineObject, java.lang.Object[]);
-    private long getNativePointer(com.abc.core.jsengine.JSEngineJavaScriptObject);
+-keepclassmembers class com.hyprmx.jsengine.jsengine.JSEngineContext {
+    private java.lang.Object proxyGet(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object);
+    private boolean proxyHas(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object);
+    private boolean proxySet(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object, java.lang.Object);
+    private java.lang.Object proxyApply(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object, java.lang.Object[]);
+    private java.lang.Object proxyConstruct(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object[]);
+    private long getNativePointer(com.hyprmx.jsengine.jsengine.JSEngineJavaScriptObject);
 }
 
 # Keep JavaScriptObject - accessed from JNI
--keep class com.abc.core.jsengine.JavaScriptObject {
-    public <init>(com.abc.core.jsengine.JSEngineContext, long, long);
-    public final com.abc.core.jsengine.JSEngineContext jsEngineContext;
+-keep class com.hyprmx.jsengine.jsengine.JavaScriptObject {
+    public <init>(com.hyprmx.jsengine.jsengine.JSEngineContext, long, long);
+    public final com.hyprmx.jsengine.jsengine.JSEngineContext jsEngineContext;
     public final long context;
     public final long pointer;
 }
 
 # Keep constructors called from JNI
--keepclassmembers class com.abc.core.jsengine.JavaObject {
-    public <init>(com.abc.core.jsengine.JSEngineContext, java.lang.Object);
+-keepclassmembers class com.hyprmx.jsengine.jsengine.JavaObject {
+    public <init>(com.hyprmx.jsengine.jsengine.JSEngineContext, java.lang.Object);
 }
 
 # Keep exception handling
--keepclassmembers class com.abc.core.jsengine.JSEngineException {
+-keepclassmembers class com.hyprmx.jsengine.jsengine.JSEngineException {
     public static void addJSStack(java.lang.Throwable, java.lang.String);
     public static java.lang.String addJavaStack(java.lang.String, java.lang.Throwable);
 }
 
 # Keep JSON field
--keepclassmembers class * implements com.abc.core.jsengine.JSEngineJsonObject {
+-keepclassmembers class * implements com.hyprmx.jsengine.jsengine.JSEngineJsonObject {
     public java.lang.String json;
 }
 
 # Keep getObject() for Java object wrappers
--keepclassmembers class * implements com.abc.core.jsengine.JSEngineJavaObject {
+-keepclassmembers class * implements com.hyprmx.jsengine.jsengine.JSEngineJavaObject {
     public java.lang.Object getObject();
 }
 
 # Keep annotations
--keep @interface com.abc.core.jsengine.JSEngineMethodName
+-keep @interface com.hyprmx.jsengine.jsengine.JSEngineMethodName
 -keepclassmembers class * {
-    @com.abc.core.jsengine.JSEngineMethodName *;
+    @com.hyprmx.jsengine.jsengine.JSEngineMethodName *;
 }
 
 # Debugging

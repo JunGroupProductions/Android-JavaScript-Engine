@@ -1,16 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(test:*)",
-      "Bash(find:*)",
-      "Bash(./gradlew clean:*)",
-      "Bash(./gradlew:*)",
-      "Bash(while read f)",
-      "Bash(do if ! head -3 \"$f\")",
-      "Bash(then echo \"$f\")",
-      "Bash(fi)",
-      "Bash(done)",
-      "Bash(unzip:*)"
+      "Bash(do sed 's/package com\\.abc\\.core\\.jsengine/package com.hyprmx.jsengine.jsengine/g; s/import com\\.abc\\.core\\.jsengine/import com.hyprmx.jsengine.jsengine/g; s/com\\.abc\\.core\\.jsengine\\.JSEngineTests/com.hyprmx.jsengine.jsengine.JSEngineTests/g' \"$file\")"
     ],
     "deny": [],
     "ask": []

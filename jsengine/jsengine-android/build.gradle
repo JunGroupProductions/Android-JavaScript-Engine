@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 android {
   compileSdkVersion 35
 
-  namespace "com.abc.core.jsengine"
+  namespace "com.hyprmx.jsengine.jsengine"
   ndkVersion "28.2.13676358"
 
   sourceSets {
@@ -104,7 +104,7 @@ afterEvaluate {
   publishing {
     publications {
       release(MavenPublication) {
-        groupId = 'com.abc.core'
+        groupId = 'com.hyprmx.jsengine'
         artifactId = 'jsengine'
         version = '1.0.4'
         artifact("$buildDir/outputs/aar/${project.name}-release.aar")
@@ -124,9 +124,9 @@ afterEvaluate {
 
           developers {
             developer {
-              id = 'abc'
-              name = 'ABC'
-              email = 'dev@abc.com'
+              id = 'hyprmx'
+              name = 'HyprMX'
+              email = 'dev@hyprmx.com'
             }
           }
         }

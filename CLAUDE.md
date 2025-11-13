@@ -75,7 +75,7 @@ Run from project root. Output AAR artifact: `jsengine/jsengine-android/build/out
 - Referenced directly by CMake build
 - Contains C implementation of QuickJS runtime
 
-**jsengine/JSEngine/** - Sample Android library module (namespace: `com.abc.android.jsengine`)
+**jsengine/JSEngine/** - Sample Android library module (namespace: `com.hyprmx.jsengine.sample`)
 
 ### JavaScript Engine Support
 
@@ -87,7 +87,7 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 
 ### Key Classes
 
-**JSEngineContext** (`jsengine-java/src/main/java/com/abc/core/jsengine/JSEngineContext.java`)
+**JSEngineContext** (`jsengine-java/src/main/java/com/hyprmx/jsengine/jsengine/JSEngineContext.java`)
 - Main API for JavaScript execution
 - Manages Java ↔ JavaScript type coercion
 - Handles both QuickJS and Duktape engines
@@ -101,7 +101,7 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 
 The project is configured for Maven publishing:
 
-**Group ID**: `com.abc.core`
+**Group ID**: `com.hyprmx.jsengine`
 **Artifact ID**: `jsengine`
 **Version**: `1.0.4` (latest)
 
@@ -171,7 +171,7 @@ In `jsengine/jsengine-android/build.gradle`:
 - `compileSdkVersion` and `targetSdkVersion` must match (35)
 - `minSdkVersion` must be ≥ 21 (lower breaks native compilation)
 - `ndkVersion "28.2.13676358"` (or compatible with minSdk)
-- `namespace "com.abc.core.jsengine"`
+- `namespace "com.hyprmx.jsengine.jsengine"`
 
 In `jsengine/jsengine-android/src/main/jni/CMakeLists.txt`:
 ```cmake

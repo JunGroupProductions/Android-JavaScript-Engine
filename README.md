@@ -21,14 +21,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.abc.core:jsengine:1.0.0'
+    implementation 'com.hyprmx.jsengine:jsengine:1.0.0'
 }
 ```
 
 ## Quick Start
 
 ```java
-import com.abc.core.jsengine.JSEngineContext;
+import com.hyprmx.jsengine.jsengine.JSEngineContext;
 
 // Create context (true = QuickJS, false = Duktape)
 try (JSEngineContext context = JSEngineContext.create(true)) {
@@ -74,7 +74,7 @@ try (JSEngineContext context = JSEngineContext.create(true)) {
 
 After building, you'll find:
 - **AAR**: `jsengine/jsengine-android/build/outputs/aar/jsengine-android-release.aar`
-- **Maven**: `~/.m2/repository/com/abc/core/jsengine/1.0.0/`
+- **Maven**: `~/.m2/repository/com/hyprmx/jsengine/jsengine/1.0.4/`
 
 ## 16KB Page Size Support
 
@@ -164,7 +164,7 @@ Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) file for 
 
 ## Modifications from Original Quack
 
-- Complete package refactoring: `com.koushikdutta.quack` → `com.abc.core.jsengine`
+- Complete package refactoring: `com.koushikdutta.quack` → `com.hyprmx.jsengine.jsengine`
 - Class renaming: `Quack*` → `JSEngine*`
 - Module restructuring: `quack-*` → `jsengine-*`
 - Native library renaming: `libquack.so` → `libjsengine.so`

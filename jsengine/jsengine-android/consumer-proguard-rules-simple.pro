@@ -6,10 +6,10 @@
 # ==============================================================================
 
 # Keep all JSEngine classes and members
--keep class com.abc.core.jsengine.** { *; }
+-keep class com.hyprmx.jsengine.jsengine.** { *; }
 
 # Keep Kotlin extensions
--keep class com.abc.core.jsengine.ExtensionsKt { *; }
+-keep class com.hyprmx.jsengine.jsengine.ExtensionsKt { *; }
 
 # Keep debugging attributes
 -keepattributes SourceFile,LineNumberTable

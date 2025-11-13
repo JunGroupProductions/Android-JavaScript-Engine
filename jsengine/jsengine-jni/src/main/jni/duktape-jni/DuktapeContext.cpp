@@ -186,22 +186,22 @@ DuktapeContext::DuktapeContext(JavaVM* javaVM, jobject javaDuktape)
 
   m_objectClass = findClass(env, "java/lang/Object");
 
-  jclass duktapeJavaObject = findClass(env, "com/abc/core/jsengine/JSEngineJavaObject");
+  jclass duktapeJavaObject = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineJavaObject");
 
-  m_duktapeClass = findClass(env, "com/abc/core/jsengine/JSEngineContext");
-  m_duktapeObjectClass = findClass(env, "com/abc/core/jsengine/JSEngineObject");
-  m_javaScriptObjectClass = findClass(env, "com/abc/core/jsengine/JavaScriptObject");
-  m_javaObjectClass = findClass(env, "com/abc/core/jsengine/JavaObject");
-  m_jsonObjectClass = findClass(env, "com/abc/core/jsengine/JSEngineJsonObject");
+  m_duktapeClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineContext");
+  m_duktapeObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineObject");
+  m_javaScriptObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JavaScriptObject");
+  m_javaObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JavaObject");
+  m_jsonObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineJsonObject");
   m_byteBufferClass = findClass(env, "java/nio/ByteBuffer");
 
-  m_duktapeHasMethod = env->GetMethodID(m_duktapeClass, "proxyHas", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;)Z");
-  m_duktapeGetMethod = env->GetMethodID(m_duktapeClass, "proxyGet", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;)Ljava/lang/Object;");
-  m_duktapeSetMethod = env->GetMethodID(m_duktapeClass, "proxySet", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;Ljava/lang/Object;)Z");
-  m_duktapeCallMethodMethod = env->GetMethodID(m_duktapeClass, "proxyApply", "(Lcom/abc/core/jsengine/JSEngineObject;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;");
+  m_duktapeHasMethod = env->GetMethodID(m_duktapeClass, "proxyHas", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;)Z");
+  m_duktapeGetMethod = env->GetMethodID(m_duktapeClass, "proxyGet", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;)Ljava/lang/Object;");
+  m_duktapeSetMethod = env->GetMethodID(m_duktapeClass, "proxySet", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;Ljava/lang/Object;)Z");
+  m_duktapeCallMethodMethod = env->GetMethodID(m_duktapeClass, "proxyApply", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;");
 
-  m_javaScriptObjectConstructor = env->GetMethodID(m_javaScriptObjectClass, "<init>", "(Lcom/abc/core/jsengine/JSEngineContext;JJ)V");
-  m_javaObjectConstructor = env->GetMethodID(m_javaObjectClass, "<init>", "(Lcom/abc/core/jsengine/JSEngineContext;Ljava/lang/Object;)V");
+  m_javaScriptObjectConstructor = env->GetMethodID(m_javaScriptObjectClass, "<init>", "(Lcom/hyprmx/jsengine/jsengine/JSEngineContext;JJ)V");
+  m_javaObjectConstructor = env->GetMethodID(m_javaObjectClass, "<init>", "(Lcom/hyprmx/jsengine/jsengine/JSEngineContext;Ljava/lang/Object;)V");
   m_javaObjectGetObject = env->GetMethodID(duktapeJavaObject, "getObject", "()Ljava/lang/Object;");
   m_byteBufferAllocateDirect = env->GetStaticMethodID(m_byteBufferClass, "allocateDirect", "(I)Ljava/nio/ByteBuffer;");
 
@@ -1014,7 +1014,7 @@ void queueIllegalArgumentException(JNIEnv* env, const std::string& message) {
 }
 
 void queueDuktapeException(JNIEnv* env, const std::string& message) {
-  const jclass exceptionClass = env->FindClass("com/abc/core/jsengine/JSEngineException");
+  const jclass exceptionClass = env->FindClass("com/hyprmx/jsengine/jsengine/JSEngineException");
   env->ThrowNew(exceptionClass, message.c_str());
 }
 
@@ -1050,7 +1050,7 @@ bool checkRethrowDuktapeErrorInternal(JNIEnv* env, duk_context* ctx) {
   duk_swap_top(ctx, -2);
   duk_put_prop_string(ctx, -2, JAVA_EXCEPTION_PROP_NAME);
 
-  jclass exceptionClass = env->FindClass("com/abc/core/jsengine/JSEngineException");
+  jclass exceptionClass = env->FindClass("com/hyprmx/jsengine/jsengine/JSEngineException");
   duk_get_prop_string(ctx, -1, "stack");
   std::string stack = duk_safe_to_string(ctx, -1);
   duk_pop(ctx);
@@ -1080,7 +1080,7 @@ bool checkRethrowDuktapeErrorException(JNIEnv* env, duk_context* ctx) {
 }
 
 void queueJavaExceptionForDuktapeError(JNIEnv *env, duk_context *ctx) {
-  jclass exceptionClass = env->FindClass("com/abc/core/jsengine/JSEngineException");
+  jclass exceptionClass = env->FindClass("com/hyprmx/jsengine/jsengine/JSEngineException");
 
   // If it's a Duktape error object, try to pull out the full stacktrace.
   if (duk_is_error(ctx, -1) && duk_has_prop_string(ctx, -1, "stack")) {

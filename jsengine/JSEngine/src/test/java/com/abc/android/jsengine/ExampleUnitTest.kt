@@ -1,4 +1,4 @@
-package com.abc.android.jsengine
+package com.hyprmx.jsengine.sample
 
 import org.junit.Test
 
