@@ -5,7 +5,8 @@
       "Bash(git add:*)",
       "Bash(./gradlew clean:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nRelease JSEngine 1.0.0\n\nInitial public release of JSEngine - complete refactoring from Quack.\n\nChanges:\n- Fix JNI signature mismatches (com_abc_core → com_hyprmx_jsengine_jsengine)\n- Update NOTICE files to reference only v1.0.0\n- Update CLAUDE.md documentation for 1.0.0 release\n- Add refactoring and session context documentation\n- Clean up all obsolete package references\n\nBuild verified and tested.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(./gradlew:*)"
+      "Bash(./gradlew:*)",
+      "Bash(unzip:*)"
     ],
     "deny": [],
     "ask": []

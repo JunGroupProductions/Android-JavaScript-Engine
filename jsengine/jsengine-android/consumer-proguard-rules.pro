@@ -48,15 +48,19 @@
     java.lang.Object getObject();
 }
 -keep interface com.hyprmx.jsengine.jsengine.JSEngineMethodObject { *; }
--keep interface com.hyprmx.jsengine.jsengine.JSEngineJsonObject { *; }
+
+# JSEngineJsonObject is a CLASS, not an interface
+-keep class com.hyprmx.jsengine.jsengine.JSEngineJsonObject {
+    public *;
+}
 
 # ==============================================================================
 # Exception Handling
 # ==============================================================================
 
 -keep class com.hyprmx.jsengine.jsengine.JSEngineException {
-    public static void addJSStack(java.lang.Throwable, java.lang.String);
-    public static java.lang.String addJavaStack(java.lang.String, java.lang.Throwable);
+    static void addJSStack(java.lang.Throwable, java.lang.String);
+    static java.lang.String addJavaStack(java.lang.String, java.lang.Throwable);
     public *;
 }
 
@@ -74,11 +78,6 @@
 # Keep constructors that might be called from JavaScript
 -keepclassmembers class * {
     public <init>(...);
-}
-
-# Keep JSON object fields
--keepclassmembers class * implements com.hyprmx.jsengine.jsengine.JSEngineJsonObject {
-    public java.lang.String json;
 }
 
 # Keep classes implementing JSEngineObject
