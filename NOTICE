@@ -5,15 +5,15 @@ This product contains modified portions of Quack, originally created by Koushik 
   * Copyright 2015 Koushik Dutta
   * Licensed under the Apache License, Version 2.0
   * Source: https://github.com/koush/quack
-  * Modifications include (v1.0.0-1.0.4):
+  * Modifications include (v1.0.0):
     - Complete package refactoring (com.koushikdutta.quack → com.hyprmx.jsengine.jsengine)
     - Class renaming (Quack* → JSEngine*)
     - Module restructuring (quack-* → jsengine-*)
     - Native library renaming (libquack.so → libjsengine.so)
-    - API cleanup: removed all "quack" references from public APIs (v1.0.4)
-    - Field renames: quackContext → jsEngineContext (v1.0.4)
-    - Method renames: quackGet → proxyGet, quackHas → proxyHas, etc. (v1.0.4)
-    - JNI signature fixes for refactored class names (v1.0.3)
+    - API cleanup: removed all "quack" references from public APIs
+    - Field renames: quackContext → jsEngineContext
+    - Method renames: quackGet → proxyGet, quackHas → proxyHas, etc.
+    - JNI signature fixes for refactored class names
     - Maven publishing configuration
     - 16KB page size support enhancements
 

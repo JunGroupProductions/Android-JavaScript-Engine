@@ -103,20 +103,20 @@ The project is configured for Maven publishing:
 
 **Group ID**: `com.hyprmx.jsengine`
 **Artifact ID**: `jsengine`
-**Version**: `1.0.4` (latest)
+**Version**: `1.0.0` (latest)
 
 Publishing is configured in `jsengine/jsengine-android/build.gradle` with both `mavenLocal()` and optional remote repository support.
 
 ### Version History
 
-- **1.0.4** (2025-11-13) - Removed all "quack" references from public APIs
-  - ⚠️ **BREAKING**: `JavaScriptObject.quackContext` → `JavaScriptObject.jsEngineContext`
-  - Internal method renames (quackGet → proxyGet, etc.)
-  - All parameter names cleaned up
+- **1.0.0** (2025-11-13) - Initial public release
+  - Complete refactoring from Quack to JSEngine
+  - Package name: `com.hyprmx.jsengine.jsengine`
+  - Native library: `libjsengine.so`
+  - Removed all "quack" references from public APIs
+  - JNI signature fixes for refactored class names
   - Added LICENSE/NOTICE/THIRD_PARTY_LICENSES to AAR artifact
-- **1.0.3** (2025-11-13) - Fixed JNI signature mismatches after refactoring
-- **1.0.2** - Initial refactored release
-- **1.0.0-1.0.1** - Pre-refactoring versions
+  - 16KB page size support for modern Android devices
 
 ## Legal Compliance
 
@@ -138,7 +138,7 @@ JSEngine is Apache 2.0 licensed with proper attribution:
 
 ## ProGuard/R8 Support
 
-JSEngine v1.0.4+ includes automatic ProGuard/R8 configuration:
+JSEngine v1.0.0+ includes automatic ProGuard/R8 configuration:
 
 **Automatic Configuration:**
 - Consumer ProGuard rules bundled in AAR

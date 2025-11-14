@@ -24,7 +24,7 @@
 extern "C" {
 
 JNIEXPORT jlong JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_createContext(JNIEnv* env, jclass type, jobject javaDuktape, jboolean useQuickJS) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_createContext(JNIEnv* env, jclass type, jobject javaDuktape, jboolean useQuickJS) {
     JavaVM* javaVM;
     env->GetJavaVM(&javaVM);
     try {
@@ -39,71 +39,71 @@ Java_com_abc_core_jsengine_JSEngineContext_createContext(JNIEnv* env, jclass typ
 }
 
 JNIEXPORT void JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_destroyContext(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_destroyContext(JNIEnv *env, jclass type, jlong context) {
   delete reinterpret_cast<JSContext *>(context);
 }
 
 JNIEXPORT void JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_waitForDebugger(JNIEnv *env, jclass type, jlong context, jstring connectionString) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_waitForDebugger(JNIEnv *env, jclass type, jlong context, jstring connectionString) {
     reinterpret_cast<JSContext *>(context)->waitForDebugger(env, connectionString);
 }
 
 JNIEXPORT void JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_cooperateDebugger(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_cooperateDebugger(JNIEnv *env, jclass type, jlong context) {
     reinterpret_cast<JSContext *>(context)->cooperateDebugger();
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_isDebugging(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_isDebugging(JNIEnv *env, jclass type, jlong context) {
   return reinterpret_cast<JSContext *>(context)->isDebugging();
 }
 
 JNIEXPORT void JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_debuggerAppNotify(JNIEnv *env, jclass type,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_debuggerAppNotify(JNIEnv *env, jclass type,
                                            jlong context,
                                            jobjectArray args) {
     reinterpret_cast<JSContext *>(context)->debuggerAppNotify(env, args);
 }
 
 JNIEXPORT jstring JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_stringify(JNIEnv *env, jclass type, jlong context, jlong object) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_stringify(JNIEnv *env, jclass type, jlong context, jlong object) {
   return reinterpret_cast<JSContext *>(context)->stringify(env, object);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_getGlobalObject(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_getGlobalObject(JNIEnv *env, jclass type, jlong context) {
     return reinterpret_cast<JSContext *>(context)->getGlobalObject(env);
 }
 
 JNIEXPORT void JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_finalizeJavaScriptObjects(JNIEnv *env, jclass type,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_finalizeJavaScriptObjects(JNIEnv *env, jclass type,
                                                                jlong context, jlongArray objects) {
     return reinterpret_cast<JSContext *>(context)->finalizeJavaScriptObjects(env, objects);
                                        
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_call(JNIEnv *env, jclass type,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_call(JNIEnv *env, jclass type,
                                            jlong context, jlong object,
                                            jobjectArray args) {
     return reinterpret_cast<JSContext *>(context)->call(env, object, args);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_callConstructor(JNIEnv *env, jclass type,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_callConstructor(JNIEnv *env, jclass type,
                                            jlong context, jlong object,
                                            jobjectArray args) {
     return reinterpret_cast<JSContext *>(context)->callConstructor(env, object, args);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_callMethod(
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_callMethod(
         JNIEnv *env, jclass type, jlong context, jlong object, jobject thiz, jobjectArray args) {
     return reinterpret_cast<JSContext *>(context)->callMethod(env, object, thiz, args);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_callProperty(JNIEnv *env, jclass type,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_callProperty(JNIEnv *env, jclass type,
                                            jlong context, jlong object,
                                            jobject property,
                                            jobjectArray args) {
@@ -111,67 +111,67 @@ Java_com_abc_core_jsengine_JSEngineContext_callProperty(JNIEnv *env, jclass type
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_getKeyObject(JNIEnv *env, jclass type, jlong context,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_getKeyObject(JNIEnv *env, jclass type, jlong context,
                                                jlong object, jobject key) {
     return reinterpret_cast<JSContext *>(context)->getKeyObject(env, object, key);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_getKeyInteger(JNIEnv *env, jclass type, jlong context, jlong object, jint index) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_getKeyInteger(JNIEnv *env, jclass type, jlong context, jlong object, jint index) {
     return reinterpret_cast<JSContext *>(context)->getKeyInteger(env, object, index);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_getKeyString(JNIEnv *env, jclass type, jlong context, jlong object, jstring key) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_getKeyString(JNIEnv *env, jclass type, jlong context, jlong object, jstring key) {
     return reinterpret_cast<JSContext *>(context)->getKeyString(env, object, key);
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_setKeyObject(JNIEnv *env, jclass type, jlong context,
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_setKeyObject(JNIEnv *env, jclass type, jlong context,
                                                jlong object, jobject key, jobject value) {
     return reinterpret_cast<JSContext *>(context)->setKeyObject(env, object, key, value);
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_setKeyInteger(JNIEnv *env, jclass type, jlong context, jlong object, jint index, jobject value) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_setKeyInteger(JNIEnv *env, jclass type, jlong context, jlong object, jint index, jobject value) {
     return reinterpret_cast<JSContext *>(context)->setKeyInteger(env, object, index, value);
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_setKeyString(JNIEnv *env, jclass type, jlong context, jlong object, jstring key, jobject value) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_setKeyString(JNIEnv *env, jclass type, jlong context, jlong object, jstring key, jobject value) {
     return reinterpret_cast<JSContext *>(context)->setKeyString(env, object, key, value);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_compileFunction(
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_compileFunction(
         JNIEnv* env, jclass type, jlong context, jstring code, jstring fname) {
     return reinterpret_cast<JSContext *>(context)->compile(env, code, fname);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_evaluate(
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_evaluate(
     JNIEnv* env, jclass type, jlong context, jstring code, jstring fname) {
     return reinterpret_cast<JSContext *>(context)->evaluate(env, code, fname);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_evaluateModule(
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_evaluateModule(
     JNIEnv* env, jclass type, jlong context, jstring code, jstring fname) {
     return reinterpret_cast<JSContext *>(context)->evaluateModule(env, code, fname);
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_getHeapSize__J(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_getHeapSize__J(JNIEnv *env, jclass type, jlong context) {
     return reinterpret_cast<JSContext *>(context)->getHeapSize(env);
 }
 
 JNIEXPORT jboolean  JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_hasPendingJobs(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_hasPendingJobs(JNIEnv *env, jclass type, jlong context) {
     return reinterpret_cast<JSContext *>(context)->hasPendingJobs(env);
 }
 
 JNIEXPORT void JNICALL
-Java_com_abc_core_jsengine_JSEngineContext_runJobs(JNIEnv *env, jclass type, jlong context) {
+Java_com_hyprmx_jsengine_jsengine_JSEngineContext_runJobs(JNIEnv *env, jclass type, jlong context) {
     reinterpret_cast<JSContext *>(context)->runJobs(env);
 }
 
