@@ -108,7 +108,7 @@
 # ==============================================================================
 
 -keep class com.hyprmx.jsengine.jsengine.ExtensionsKt {
-    public static **;
+    public static <methods>;
 }
 
 -keep class com.hyprmx.jsengine.jsengine.JSEnginePromise {
