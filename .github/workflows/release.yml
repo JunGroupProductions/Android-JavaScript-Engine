@@ -1,0 +1,86 @@
+name: Release JSEngine
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+      - "release-*"
+
+jobs:
+  release:
+    name: Release to Maven Central
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine release type (central vs snapshot)
+        run: |
+          if [[ "${GITHUB_REF}" == *release* ]]; then
+            echo "'release' tag detected - publishing to Maven Central."
+            echo "RELEASE_TYPE=central" >> $GITHUB_ENV
+          else
+            echo "No 'release' in tag - publishing as SNAPSHOT."
+            echo "INFO: To publish to Central Portal, use tags like 'release-1.0.0'"
+            echo "RELEASE_TYPE=snapshot" >> $GITHUB_ENV
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Print version info
+        run: |
+          echo "Tag: ${GITHUB_REF}"
+          echo "Release type: ${{ env.RELEASE_TYPE }}"
+          ./gradlew -q :jsengine:jsengine-android:printVersion -PreleaseType=${{ env.RELEASE_TYPE }}
+
+      - name: Build release AAR
+        run: |
+          ./gradlew :jsengine:jsengine-android:assembleRelease
+
+      - name: Verify AAR contains native libraries
+        run: |
+          AAR="jsengine/jsengine-android/build/outputs/aar/jsengine-android-release.aar"
+          echo "Checking AAR contents..."
+          unzip -l "$AAR" | grep "\.so" || (echo "ERROR: No .so files in AAR!" && exit 1)
+          echo "Native libraries verified."
+
+      - name: Publish to Maven Central
+        run: |
+          echo "Publishing as ${{ env.RELEASE_TYPE }}..."
+          ./gradlew :jsengine:jsengine-android:publishToMavenCentral :jsengine:jsengine-android:bundleMavenArtifacts -PreleaseType=${{ env.RELEASE_TYPE }}
+
+      # Uncomment to publish to Maven Local for QA builds with unreleased versions
+      # Condition: env.RELEASE_TYPE != 'snapshot' (only for production releases)
+      # - name: Publish to Maven Local (for QA builds)
+      #   if: env.RELEASE_TYPE != 'snapshot'
+      #   run: |
+      #     ./gradlew :jsengine:jsengine-android:publishMavenPublicationToMavenLocal -PreleaseType=${{ env.RELEASE_TYPE }}
+
+      - name: List artifacts
+        run: |
+          echo "Contents of dist:"
+          ls -lh dist/ || echo "No dist directory"
+
+      - name: Upload artifacts to GitHub Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
