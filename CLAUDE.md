@@ -39,8 +39,14 @@ Run from project root. Output AAR artifact: `jsengine/jsengine-android/build/out
 # Publish to local Maven repository (~/.m2/repository)
 ./gradlew publishToMavenLocal
 
-# Publish to remote repository (requires configuration)
-./gradlew publish
+# Publish to Maven Central (requires credentials)
+./gradlew publishToMavenCentral -PreleaseType=central
+
+# Bundle artifacts for manual upload
+./gradlew bundleMavenArtifacts -PreleaseType=central
+
+# Print current version
+./gradlew :jsengine:jsengine-android:printVersion
 ```
 
 ### Build Specific Module
@@ -99,13 +105,27 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 
 ## Maven Configuration
 
-The project is configured for Maven publishing:
+The project uses the **Vanniktech Maven Publish plugin** for Maven Central publishing.
 
-**Group ID**: `com.hyprmx.jsengine`
-**Artifact ID**: `jsengine`
-**Version**: `1.0.0` (latest)
+**Coordinates:**
+- **Group ID**: `com.hyprmx.jsengine`
+- **Artifact ID**: `jsengine`
+- **Version**: Defined in `utils.gradle` (`jsengineVersion`)
 
-Publishing is configured in `jsengine/jsengine-android/build.gradle` with both `mavenLocal()` and optional remote repository support.
+**Key Files:**
+- `utils.gradle` - Version management and release type logic
+- `jsengine/jsengine-android/build.gradle` - Publishing configuration
+- `.github/workflows/release.yml` - CI/CD release workflow
+
+**Release Types:**
+- `snapshot` (default) → Version: `X.Y.Z-SNAPSHOT`
+- `central` → Version: `X.Y.Z` (production release)
+
+**GitHub Release Workflow:**
+- Triggered by tags matching `v*` or `release-*`
+- Tags containing `release` → publish to Maven Central
+- Other tags → publish as SNAPSHOT
+- Required secrets: `ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME`, `ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD`, `ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY`, `ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID`, `ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD`
 
 ### Version History
 
@@ -117,6 +137,30 @@ Publishing is configured in `jsengine/jsengine-android/build.gradle` with both `
   - JNI signature fixes for refactored class names
   - Added LICENSE/NOTICE/THIRD_PARTY_LICENSES to AAR artifact
   - 16KB page size support for modern Android devices
+
+### Release Process
+
+1. **Update version** in `utils.gradle`:
+   ```groovy
+   ext.jsengineVersion = "X.Y.Z"
+   ```
+
+2. **Create and push a tag**:
+   ```bash
+   # For production release to Maven Central:
+   git tag release-X.Y.Z
+   git push origin release-X.Y.Z
+
+   # For snapshot:
+   git tag vX.Y.Z-beta
+   git push origin vX.Y.Z-beta
+   ```
+
+3. **GitHub Actions** will automatically:
+   - Build the AAR
+   - Verify native libraries are included
+   - Publish to Maven Central (for release tags) or bundle artifacts (for snapshots)
+   - Upload artifacts to GitHub Release
 
 ## Legal Compliance
 

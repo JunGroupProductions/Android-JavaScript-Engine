@@ -1,0 +1,19 @@
+// Version configuration for JSEngine
+// Update this version for new releases
+ext.jsengineVersion = "1.0.0"
+
+ext.getLibraryVersion = {
+    def releaseType = project.findProperty("releaseType") ?: "snapshot"
+    if (releaseType == "snapshot") {
+        return "${jsengineVersion}-SNAPSHOT"
+    }
+    return jsengineVersion
+}
+
+ext.getReleaseType = {
+    return project.findProperty("releaseType") ?: "snapshot"
+}
+
+ext.onCI = {
+    return System.getenv("CI") != null
+}
