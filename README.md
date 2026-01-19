@@ -1,5 +1,11 @@
 # JSEngine
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.hyprmx.jsengine/jsengine)](https://search.maven.org/artifact/com.hyprmx.jsengine/jsengine)
+[![Snapshots](https://img.shields.io/badge/Snapshots-Sonatype-orange)](https://s01.oss.sonatype.org/content/repositories/snapshots/com/hyprmx/jsengine/jsengine/)
+[![Release](https://github.com/JunGroupProductions/Android-JavaScript-Engine/actions/workflows/release.yml/badge.svg)](https://github.com/JunGroupProductions/Android-JavaScript-Engine/actions/workflows/release.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg)](https://developer.android.com/about/versions/lollipop)
+
 JSEngine provides Java and Android bindings to JavaScript engines (QuickJS ES2020 and Duktape ES5.1) with **16KB page size support** for modern Android devices.
 
 ## Features
