@@ -1,8 +1,8 @@
 # JSEngine
 
 <p align="center">
-  <a href="https://search.maven.org/artifact/com.hyprmx.jsengine/jsengine"><img src="https://img.shields.io/maven-central/v/com.hyprmx.jsengine/jsengine" alt="Maven Central"></a>
-  <a href="https://s01.oss.sonatype.org/content/repositories/snapshots/com/hyprmx/jsengine/jsengine/"><img src="https://img.shields.io/badge/Snapshots-Sonatype-orange" alt="Snapshots"></a>
+  <a href="https://search.maven.org/artifact/com.hyprmx.android/jsengine"><img src="https://img.shields.io/maven-central/v/com.hyprmx.android/jsengine" alt="Maven Central"></a>
+  <a href="https://s01.oss.sonatype.org/content/repositories/snapshots/com/hyprmx/android/jsengine/"><img src="https://img.shields.io/badge/Snapshots-Sonatype-orange" alt="Snapshots"></a>
   <a href="https://github.com/JunGroupProductions/Android-JavaScript-Engine/actions/workflows/release.yml"><img src="https://github.com/JunGroupProductions/Android-JavaScript-Engine/actions/workflows/release.yml/badge.svg" alt="Release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
   <a href="THIRD_PARTY_LICENSES"><img src="https://img.shields.io/badge/Third%20Party-Licenses-lightgrey" alt="Third Party Licenses"></a>
@@ -30,14 +30,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.hyprmx.jsengine:jsengine:0.0.1'
+    implementation 'com.hyprmx.android:jsengine:0.0.1'
 }
 ```
 
 ## Quick Start
 
 ```java
-import com.hyprmx.jsengine.jsengine.JSEngineContext;
+import com.hyprmx.android.jsengine.JSEngineContext;
 
 // Create context (true = QuickJS, false = Duktape)
 try (JSEngineContext context = JSEngineContext.create(true)) {
@@ -83,7 +83,7 @@ try (JSEngineContext context = JSEngineContext.create(true)) {
 
 After building, you'll find:
 - **AAR**: `jsengine/jsengine-android/build/outputs/aar/jsengine-android-release.aar`
-- **Maven**: `~/.m2/repository/com/hyprmx/jsengine/jsengine/0.0.1/`
+- **Maven**: `~/.m2/repository/com/hyprmx/android/jsengine/0.0.1/`
 
 ## 16KB Page Size Support
 
@@ -173,7 +173,7 @@ Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) file for 
 
 ## Modifications from Original Quack
 
-- Complete package refactoring: `com.koushikdutta.quack` → `com.hyprmx.jsengine.jsengine`
+- Complete package refactoring: `com.koushikdutta.quack` → `com.hyprmx.android.jsengine`
 - Class renaming: `Quack*` → `JSEngine*`
 - Module restructuring: `quack-*` → `jsengine-*`
 - Native library renaming: `libquack.so` → `libjsengine.so`

@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete package rebranding from original Quack library to JSEngine
 - Apache 2.0 license compliance with proper attribution to original author (Koushik Dutta)
 - LICENSE, NOTICE, and THIRD_PARTY_LICENSES files bundled in AAR at `assets/licenses/`
-- Maven publishing configuration for `com.hyprmx.jsengine:jsengine`
+- Maven publishing configuration for `com.hyprmx.android:jsengine`
 - 16KB page size support for modern Android devices
 - Dual JavaScript engine support (QuickJS ES2020 / Duktape ES5.1)
 - Comprehensive documentation (CLAUDE.md, README.md, REFACTORING_PLAN.md)
@@ -19,11 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sources JAR included in Maven publication
 
 ### Changed
-- Package name: `com.koushikdutta.quack` → `com.hyprmx.jsengine.jsengine`
+- Package name: `com.koushikdutta.quack` → `com.hyprmx.android.jsengine`
 - Module names: `quack-*` → `jsengine-*` (jsengine-java, jsengine-jni, jsengine-android)
 - Class prefixes: `Quack*` → `JSEngine*` (QuackContext → JSEngineContext, etc.)
 - Native library name: `libquack.so` → `libjsengine.so`
-- Maven coordinates: `com.hyprmx.jsengine:jsengine:X.Y.Z`
+- Maven coordinates: `com.hyprmx.android:jsengine:X.Y.Z`
 - Updated build configuration: AGP 8.8.0, NDK 28.2.13676358, Gradle 8.10.2
 - Target Android SDK: API 21-35
 - All public APIs cleaned of legacy "quack" references

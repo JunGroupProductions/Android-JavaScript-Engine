@@ -6,7 +6,7 @@ plugins {
 android {
     compileSdk 35
 
-    namespace "com.hyprmx.jsengine.sample"
+    namespace "com.hyprmx.android.jsengine.sample"
 
     defaultConfig {
         minSdk 21

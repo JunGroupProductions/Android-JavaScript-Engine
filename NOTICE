@@ -6,7 +6,7 @@ This product contains modified portions of Quack, originally created by Koushik 
   * Licensed under the Apache License, Version 2.0
   * Source: https://github.com/koush/quack
   * Modifications include (v0.0.1):
-    - Complete package refactoring (com.koushikdutta.quack → com.hyprmx.jsengine.jsengine)
+    - Complete package refactoring (com.koushikdutta.quack → com.hyprmx.android.jsengine)
     - Class renaming (Quack* → JSEngine*)
     - Module restructuring (quack-* → jsengine-*)
     - Native library renaming (libquack.so → libjsengine.so)

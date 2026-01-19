@@ -81,7 +81,7 @@ Run from project root. Output AAR artifact: `jsengine/jsengine-android/build/out
 - Referenced directly by CMake build
 - Contains C implementation of QuickJS runtime
 
-**jsengine/JSEngine/** - Sample Android library module (namespace: `com.hyprmx.jsengine.sample`)
+**jsengine/JSEngine/** - Sample Android library module (namespace: `com.hyprmx.android.jsengine.sample`)
 
 ### JavaScript Engine Support
 
@@ -93,7 +93,7 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 
 ### Key Classes
 
-**JSEngineContext** (`jsengine-java/src/main/java/com/hyprmx/jsengine/jsengine/JSEngineContext.java`)
+**JSEngineContext** (`jsengine-java/src/main/java/com/hyprmx/android/jsengine/JSEngineContext.java`)
 - Main API for JavaScript execution
 - Manages Java ↔ JavaScript type coercion
 - Handles both QuickJS and Duktape engines
@@ -108,7 +108,7 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 The project uses the **Vanniktech Maven Publish plugin** for Maven Central publishing.
 
 **Coordinates:**
-- **Group ID**: `com.hyprmx.jsengine`
+- **Group ID**: `com.hyprmx.android`
 - **Artifact ID**: `jsengine`
 - **Version**: Defined in `utils.gradle` (`jsengineVersion`)
 
@@ -131,7 +131,7 @@ The project uses the **Vanniktech Maven Publish plugin** for Maven Central publi
 
 - **0.0.1** - Initial public release
   - Complete refactoring from Quack to JSEngine
-  - Package name: `com.hyprmx.jsengine.jsengine`
+  - Package name: `com.hyprmx.android.jsengine`
   - Native library: `libjsengine.so`
   - Removed all "quack" references from public APIs
   - JNI signature fixes for refactored class names
@@ -215,7 +215,7 @@ In `jsengine/jsengine-android/build.gradle`:
 - `compileSdkVersion` and `targetSdkVersion` must match (35)
 - `minSdkVersion` must be ≥ 21 (lower breaks native compilation)
 - `ndkVersion "28.2.13676358"` (or compatible with minSdk)
-- `namespace "com.hyprmx.jsengine.jsengine"`
+- `namespace "com.hyprmx.android.jsengine"`
 
 In `jsengine/jsengine-android/src/main/jni/CMakeLists.txt`:
 ```cmake
@@ -257,7 +257,7 @@ JavaScript objects maintain references to native heap:
 
 Native JNI methods follow the pattern:
 ```cpp
-Java_com_hyprmx_jsengine_jsengine_JSEngineContext_<methodName>
+Java_com_hyprmx_android_jsengine_JSEngineContext_<methodName>
 ```
 
 When renaming classes or packages, update both:

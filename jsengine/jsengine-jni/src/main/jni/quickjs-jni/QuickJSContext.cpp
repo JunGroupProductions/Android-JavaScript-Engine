@@ -191,39 +191,39 @@ QuickJSContext::QuickJSContext(JavaVM* javaVM, jobject javaQuack):
     env->DeleteLocalRef(bufferClass);
 
     // JSEngine proxy callbacks
-    quackClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineContext");
-    quackHasMethod = env->GetMethodID(quackClass, "proxyHas", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;)Z");
-    quackGetMethod = env->GetMethodID(quackClass, "proxyGet", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;)Ljava/lang/Object;");
-    quackSetMethod = env->GetMethodID(quackClass, "proxySet", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;Ljava/lang/Object;)Z");
-    quackApplyMethod = env->GetMethodID(quackClass, "proxyApply", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;");
-    quackConstructMethod = env->GetMethodID(quackClass, "proxyConstruct", "(Lcom/hyprmx/jsengine/jsengine/JSEngineObject;[Ljava/lang/Object;)Ljava/lang/Object;");
+    quackClass = findClass(env, "com/hyprmx/android/jsengine/JSEngineContext");
+    quackHasMethod = env->GetMethodID(quackClass, "proxyHas", "(Lcom/hyprmx/android/jsengine/JSEngineObject;Ljava/lang/Object;)Z");
+    quackGetMethod = env->GetMethodID(quackClass, "proxyGet", "(Lcom/hyprmx/android/jsengine/JSEngineObject;Ljava/lang/Object;)Ljava/lang/Object;");
+    quackSetMethod = env->GetMethodID(quackClass, "proxySet", "(Lcom/hyprmx/android/jsengine/JSEngineObject;Ljava/lang/Object;Ljava/lang/Object;)Z");
+    quackApplyMethod = env->GetMethodID(quackClass, "proxyApply", "(Lcom/hyprmx/android/jsengine/JSEngineObject;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;");
+    quackConstructMethod = env->GetMethodID(quackClass, "proxyConstruct", "(Lcom/hyprmx/android/jsengine/JSEngineObject;[Ljava/lang/Object;)Ljava/lang/Object;");
     quackMapNativeMethod = env->GetMethodID(quackClass, "mapNative", "(Ljava/lang/Object;Ljava/lang/Object;)V");
     quackUnmapNativeMethod = env->GetMethodID(quackClass, "unmapNative", "(Ljava/lang/Object;)Ljava/lang/Object;");
-    quackGetNativePointer = env->GetMethodID(quackClass, "getNativePointer", "(Lcom/hyprmx/jsengine/jsengine/JSEngineJavaScriptObject;)J");
+    quackGetNativePointer = env->GetMethodID(quackClass, "getNativePointer", "(Lcom/hyprmx/android/jsengine/JSEngineJavaScriptObject;)J");
 
-    quackObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineObject");
+    quackObjectClass = findClass(env, "com/hyprmx/android/jsengine/JSEngineObject");
 
     // QuackJsonObject
-    quackjsonObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineJsonObject");
+    quackjsonObjectClass = findClass(env, "com/hyprmx/android/jsengine/JSEngineJsonObject");
     quackJsonField = env->GetFieldID(quackjsonObjectClass, "json", "Ljava/lang/String;");
 
     // JavaScriptObject
-    javaScriptObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JavaScriptObject");
-    javaScriptObjectConstructor = env->GetMethodID(javaScriptObjectClass, "<init>", "(Lcom/hyprmx/jsengine/jsengine/JSEngineContext;JJ)V");
+    javaScriptObjectClass = findClass(env, "com/hyprmx/android/jsengine/JavaScriptObject");
+    javaScriptObjectConstructor = env->GetMethodID(javaScriptObjectClass, "<init>", "(Lcom/hyprmx/android/jsengine/JSEngineContext;JJ)V");
 
     // QuackJavaScriptObject (interface, which can be implemented by proxies)
-    quackJavaScriptObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineJavaScriptObject");
+    quackJavaScriptObjectClass = findClass(env, "com/hyprmx/android/jsengine/JSEngineJavaScriptObject");
 
     // JavaObject
-    javaObjectClass = findClass(env, "com/hyprmx/jsengine/jsengine/JavaObject");
-    javaObjectConstructor = env->GetMethodID(javaObjectClass, "<init>", "(Lcom/hyprmx/jsengine/jsengine/JSEngineContext;Ljava/lang/Object;)V");
+    javaObjectClass = findClass(env, "com/hyprmx/android/jsengine/JavaObject");
+    javaObjectConstructor = env->GetMethodID(javaObjectClass, "<init>", "(Lcom/hyprmx/android/jsengine/JSEngineContext;Ljava/lang/Object;)V");
 
     // QuackJavaObject
-    quackJavaObject = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineJavaObject");
+    quackJavaObject = findClass(env, "com/hyprmx/android/jsengine/JSEngineJavaObject");
     quackJavaObjectGetObject = env->GetMethodID(quackJavaObject, "getObject", "()Ljava/lang/Object;");
 
     // exceptions
-    quackExceptionClass = findClass(env, "com/hyprmx/jsengine/jsengine/JSEngineException");
+    quackExceptionClass = findClass(env, "com/hyprmx/android/jsengine/JSEngineException");
     addJSStack =env->GetStaticMethodID(quackExceptionClass, "addJSStack","(Ljava/lang/Throwable;Ljava/lang/String;)V");
     addJavaStack = env->GetStaticMethodID(quackExceptionClass, "addJavaStack", "(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/lang/String;");
 }

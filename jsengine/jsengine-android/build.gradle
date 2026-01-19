@@ -9,7 +9,7 @@ def releaseType = getReleaseType()
 android {
   compileSdkVersion 35
 
-  namespace "com.hyprmx.jsengine.jsengine"
+  namespace "com.hyprmx.android.jsengine"
   ndkVersion "28.2.13676358"
 
   sourceSets {
@@ -103,7 +103,7 @@ import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import com.vanniktech.maven.publish.SonatypeHost
 
 mavenPublishing {
-    coordinates('com.hyprmx.jsengine', 'jsengine', libraryVersion)
+    coordinates('com.hyprmx.android', 'jsengine', libraryVersion)
 
     configure(new AndroidSingleVariantLibrary("release", true, true))
 

@@ -7,34 +7,34 @@
 # ==============================================================================
 
 # Keep JSEngineContext - JNI entry point
--keep class com.hyprmx.jsengine.jsengine.JSEngineContext {
-    private java.lang.Object proxyGet(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object);
-    private boolean proxyHas(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object);
-    private boolean proxySet(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object, java.lang.Object);
-    private java.lang.Object proxyApply(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object, java.lang.Object[]);
-    private java.lang.Object proxyConstruct(com.hyprmx.jsengine.jsengine.JSEngineObject, java.lang.Object[]);
+-keep class com.hyprmx.android.jsengine.JSEngineContext {
+    private java.lang.Object proxyGet(com.hyprmx.android.jsengine.JSEngineObject, java.lang.Object);
+    private boolean proxyHas(com.hyprmx.android.jsengine.JSEngineObject, java.lang.Object);
+    private boolean proxySet(com.hyprmx.android.jsengine.JSEngineObject, java.lang.Object, java.lang.Object);
+    private java.lang.Object proxyApply(com.hyprmx.android.jsengine.JSEngineObject, java.lang.Object, java.lang.Object[]);
+    private java.lang.Object proxyConstruct(com.hyprmx.android.jsengine.JSEngineObject, java.lang.Object[]);
     public synchronized void mapNative(java.lang.Object, java.lang.Object);
     public java.lang.Object unmapNative(java.lang.Object);
-    private long getNativePointer(com.hyprmx.jsengine.jsengine.JSEngineJavaScriptObject);
+    private long getNativePointer(com.hyprmx.android.jsengine.JSEngineJavaScriptObject);
     public *;
 }
 
 # Keep JavaScriptObject - accessed from JNI
--keep class com.hyprmx.jsengine.jsengine.JavaScriptObject {
-    public <init>(com.hyprmx.jsengine.jsengine.JSEngineContext, long, long);
-    public final com.hyprmx.jsengine.jsengine.JSEngineContext jsEngineContext;
+-keep class com.hyprmx.android.jsengine.JavaScriptObject {
+    public <init>(com.hyprmx.android.jsengine.JSEngineContext, long, long);
+    public final com.hyprmx.android.jsengine.JSEngineContext jsEngineContext;
     public final long context;
     public final long pointer;
     public *;
 }
 
 # Keep JavaObject - created from JNI
--keep class com.hyprmx.jsengine.jsengine.JavaObject {
-    public <init>(com.hyprmx.jsengine.jsengine.JSEngineContext, java.lang.Object);
+-keep class com.hyprmx.android.jsengine.JavaObject {
+    public <init>(com.hyprmx.android.jsengine.JSEngineContext, java.lang.Object);
 }
 
 # Keep JSValue wrapper
--keep class com.hyprmx.jsengine.jsengine.JSValue {
+-keep class com.hyprmx.android.jsengine.JSValue {
     public *;
 }
 
@@ -42,15 +42,15 @@
 # Interfaces - Method signatures must be preserved
 # ==============================================================================
 
--keep interface com.hyprmx.jsengine.jsengine.JSEngineObject { *; }
--keep interface com.hyprmx.jsengine.jsengine.JSEngineJavaScriptObject { *; }
--keep interface com.hyprmx.jsengine.jsengine.JSEngineJavaObject {
+-keep interface com.hyprmx.android.jsengine.JSEngineObject { *; }
+-keep interface com.hyprmx.android.jsengine.JSEngineJavaScriptObject { *; }
+-keep interface com.hyprmx.android.jsengine.JSEngineJavaObject {
     java.lang.Object getObject();
 }
--keep interface com.hyprmx.jsengine.jsengine.JSEngineMethodObject { *; }
+-keep interface com.hyprmx.android.jsengine.JSEngineMethodObject { *; }
 
 # JSEngineJsonObject is a CLASS, not an interface
--keep class com.hyprmx.jsengine.jsengine.JSEngineJsonObject {
+-keep class com.hyprmx.android.jsengine.JSEngineJsonObject {
     public *;
 }
 
@@ -58,7 +58,7 @@
 # Exception Handling
 # ==============================================================================
 
--keep class com.hyprmx.jsengine.jsengine.JSEngineException {
+-keep class com.hyprmx.android.jsengine.JSEngineException {
     static void addJSStack(java.lang.Throwable, java.lang.String);
     static java.lang.String addJavaStack(java.lang.String, java.lang.Throwable);
     public *;
@@ -81,7 +81,7 @@
 }
 
 # Keep classes implementing JSEngineObject
--keep class * implements com.hyprmx.jsengine.jsengine.JSEngineObject {
+-keep class * implements com.hyprmx.android.jsengine.JSEngineObject {
     public *;
 }
 
@@ -89,16 +89,16 @@
 # Annotations
 # ==============================================================================
 
--keep @interface com.hyprmx.jsengine.jsengine.JSEngineMethodName
+-keep @interface com.hyprmx.android.jsengine.JSEngineMethodName
 -keepclassmembers class * {
-    @com.hyprmx.jsengine.jsengine.JSEngineMethodName *;
+    @com.hyprmx.android.jsengine.JSEngineMethodName *;
 }
 
 # ==============================================================================
 # Method Invocation
 # ==============================================================================
 
--keep class com.hyprmx.jsengine.jsengine.JavaMethodObject {
+-keep class com.hyprmx.android.jsengine.JavaMethodObject {
     public *;
 }
 
@@ -106,11 +106,11 @@
 # Kotlin Support
 # ==============================================================================
 
--keep class com.hyprmx.jsengine.jsengine.ExtensionsKt {
+-keep class com.hyprmx.android.jsengine.ExtensionsKt {
     public static <methods>;
 }
 
--keep class com.hyprmx.jsengine.jsengine.JSEnginePromise {
+-keep class com.hyprmx.android.jsengine.JSEnginePromise {
     public *;
 }
 
