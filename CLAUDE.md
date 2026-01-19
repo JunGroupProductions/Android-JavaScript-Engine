@@ -140,6 +140,10 @@ The project uses the **Vanniktech Maven Publish plugin** for Maven Central publi
 
 ### Release Process
 
+For detailed release procedures, see [JSEngine Release Process](https://jungroup.atlassian.net/wiki/spaces/MobileSDK/pages/1883635786/JSEngine+Release+Process) on Confluence.
+
+**Quick Reference:**
+
 1. **Update version** in `utils.gradle`:
    ```groovy
    ext.jsengineVersion = "X.Y.Z"
