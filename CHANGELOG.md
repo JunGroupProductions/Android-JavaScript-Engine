@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2025-11-13
-
 ### Added
 - Complete package rebranding from original Quack library to JSEngine
 - Apache 2.0 license compliance with proper attribution to original author (Koushik Dutta)
@@ -25,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Module names: `quack-*` → `jsengine-*` (jsengine-java, jsengine-jni, jsengine-android)
 - Class prefixes: `Quack*` → `JSEngine*` (QuackContext → JSEngineContext, etc.)
 - Native library name: `libquack.so` → `libjsengine.so`
-- Maven coordinates: `com.hyprmx.jsengine:jsengine:1.0.0`
+- Maven coordinates: `com.hyprmx.jsengine:jsengine:X.Y.Z`
 - Updated build configuration: AGP 8.8.0, NDK 28.2.13676358, Gradle 8.10.2
 - Target Android SDK: API 21-35
 - All public APIs cleaned of legacy "quack" references

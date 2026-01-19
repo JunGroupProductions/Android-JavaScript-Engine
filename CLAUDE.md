@@ -129,7 +129,7 @@ The project uses the **Vanniktech Maven Publish plugin** for Maven Central publi
 
 ### Version History
 
-- **1.0.0** (2025-11-13) - Initial public release
+- **0.0.1** - Initial public release
   - Complete refactoring from Quack to JSEngine
   - Package name: `com.hyprmx.jsengine.jsengine`
   - Native library: `libjsengine.so`
@@ -182,7 +182,7 @@ JSEngine is Apache 2.0 licensed with proper attribution:
 
 ## ProGuard/R8 Support
 
-JSEngine v1.0.0+ includes automatic ProGuard/R8 configuration:
+JSEngine v0.0.1+ includes automatic ProGuard/R8 configuration:
 
 **Automatic Configuration:**
 - Consumer ProGuard rules bundled in AAR
