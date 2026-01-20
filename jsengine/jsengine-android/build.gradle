@@ -1,10 +1,15 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+apply plugin: 'com.vanniktech.maven.publish'
+
+apply from: "${rootDir}/utils.gradle"
+
+def libraryVersion = getLibraryVersion()
+def releaseType = getReleaseType()
 
 android {
   compileSdkVersion 35
 
-  namespace "com.hyprmx.jsengine.jsengine"
+  namespace "com.hyprmx.android.jsengine"
   ndkVersion "28.2.13676358"
 
   sourceSets {
@@ -27,7 +32,7 @@ android {
     minSdkVersion 21
     targetSdkVersion 35
     versionCode 1
-    versionName "1.0"
+    versionName libraryVersion
     ndk {
       // abiFilters('arm64-v8a', 'x86_64')
     }
@@ -94,26 +99,18 @@ task copyLicenseFiles(type: Copy) {
 // Ensure license files are copied before building
 preBuild.dependsOn copyLicenseFiles
 
-// Task to generate sources JAR
-task androidSourcesJar(type: Jar) {
-  archiveClassifier.set('sources')
-  from android.sourceSets.main.java.srcDirs
-}
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.SonatypeHost
 
-afterEvaluate {
-  publishing {
-    publications {
-      release(MavenPublication) {
-        groupId = 'com.hyprmx.jsengine'
-        artifactId = 'jsengine'
-        version = '1.0.0'
-        artifact("$buildDir/outputs/aar/${project.name}-release.aar")
-        artifact androidSourcesJar
+mavenPublishing {
+    coordinates('com.hyprmx.android', 'jsengine', libraryVersion)
+
+    configure(new AndroidSingleVariantLibrary("release", true, true))
 
         pom {
           name = 'JSEngine'
           description = 'Java and Android bindings for JavaScript engines (QuickJS/Duktape) with 16KB page size support'
-          url = 'https://github.com/yourusername/jsengine'
+          url = 'https://github.com/JunGroupProductions/Android-JavaScript-Engine'
 
           licenses {
             license {
@@ -128,14 +125,51 @@ afterEvaluate {
               name = 'HyprMX'
               email = 'dev@hyprmx.com'
             }
-          }
         }
-      }
+
+        scm {
+            url = 'https://github.com/JunGroupProductions/Android-JavaScript-Engine'
+            connection = 'scm:git:github.com/JunGroupProductions/Android-JavaScript-Engine.git'
+            developerConnection = 'scm:git:ssh://github.com/JunGroupProductions/Android-JavaScript-Engine.git'
+        }
     }
 
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, false)
+    signAllPublications()
+}
+
+// Local artifacts repository for bundling
+publishing {
     repositories {
-      mavenLocal()
-      // maven { url = uri("...") } // For remote publishing
+        maven {
+            name = "artifacts"
+            url = uri(layout.buildDirectory.dir("outputs/maven_artifacts"))
+        }
     }
-  }
+}
+
+// Task to bundle Maven artifacts into a ZIP file for manual upload
+tasks.register('bundleMavenArtifacts', Zip) {
+    group = "publishing"
+    description = "Bundles Maven Central artifacts into a ZIP file"
+
+    dependsOn("publishMavenPublicationToArtifactsRepository")
+
+    def publishedArtifacts = layout.buildDirectory.dir("outputs/maven_artifacts")
+
+    from(publishedArtifacts)
+    into("jsengine-${libraryVersion}_maven_artifacts")
+    archiveFileName = "jsengine-${libraryVersion}_maven_artifacts.zip"
+    destinationDirectory = file("${rootDir}/dist")
+}
+
+// Print version info task
+tasks.register('printVersion') {
+    group = "publishing"
+    description = "Prints the current library version"
+
+    doLast {
+        println "JSEngine Version: ${libraryVersion}"
+        println "Release Type: ${releaseType}"
+    }
 }

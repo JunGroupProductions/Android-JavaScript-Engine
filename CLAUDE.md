@@ -39,8 +39,14 @@ Run from project root. Output AAR artifact: `jsengine/jsengine-android/build/out
 # Publish to local Maven repository (~/.m2/repository)
 ./gradlew publishToMavenLocal
 
-# Publish to remote repository (requires configuration)
-./gradlew publish
+# Publish to Maven Central (requires credentials)
+./gradlew publishToMavenCentral -PreleaseType=central
+
+# Bundle artifacts for manual upload
+./gradlew bundleMavenArtifacts -PreleaseType=central
+
+# Print current version
+./gradlew :jsengine:jsengine-android:printVersion
 ```
 
 ### Build Specific Module
@@ -75,7 +81,7 @@ Run from project root. Output AAR artifact: `jsengine/jsengine-android/build/out
 - Referenced directly by CMake build
 - Contains C implementation of QuickJS runtime
 
-**jsengine/JSEngine/** - Sample Android library module (namespace: `com.hyprmx.jsengine.sample`)
+**jsengine/JSEngine/** - Sample Android library module (namespace: `com.hyprmx.android.jsengine.sample`)
 
 ### JavaScript Engine Support
 
@@ -87,7 +93,7 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 
 ### Key Classes
 
-**JSEngineContext** (`jsengine-java/src/main/java/com/hyprmx/jsengine/jsengine/JSEngineContext.java`)
+**JSEngineContext** (`jsengine-java/src/main/java/com/hyprmx/android/jsengine/JSEngineContext.java`)
 - Main API for JavaScript execution
 - Manages Java ↔ JavaScript type coercion
 - Handles both QuickJS and Duktape engines
@@ -99,24 +105,66 @@ Engine selection via `JSEngineContext.create(boolean useQuickJS)` where `true` =
 
 ## Maven Configuration
 
-The project is configured for Maven publishing:
+The project uses the **Vanniktech Maven Publish plugin** for Maven Central publishing.
 
-**Group ID**: `com.hyprmx.jsengine`
-**Artifact ID**: `jsengine`
-**Version**: `1.0.0` (latest)
+**Coordinates:**
+- **Group ID**: `com.hyprmx.android`
+- **Artifact ID**: `jsengine`
+- **Version**: Defined in `utils.gradle` (`jsengineVersion`)
 
-Publishing is configured in `jsengine/jsengine-android/build.gradle` with both `mavenLocal()` and optional remote repository support.
+**Key Files:**
+- `utils.gradle` - Version management and release type logic
+- `jsengine/jsengine-android/build.gradle` - Publishing configuration
+- `.github/workflows/release.yml` - CI/CD release workflow
+
+**Release Types:**
+- `snapshot` (default) → Version: `X.Y.Z-SNAPSHOT`
+- `central` → Version: `X.Y.Z` (production release)
+
+**GitHub Release Workflow:**
+- Triggered by tags matching `v*` or `release-*`
+- Tags containing `release` → publish to Maven Central
+- Other tags → publish as SNAPSHOT
+- Required secrets: `ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME`, `ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD`, `ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY`, `ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID`, `ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD`
 
 ### Version History
 
-- **1.0.0** (2025-11-13) - Initial public release
+- **0.0.1** - Initial public release
   - Complete refactoring from Quack to JSEngine
-  - Package name: `com.hyprmx.jsengine.jsengine`
+  - Package name: `com.hyprmx.android.jsengine`
   - Native library: `libjsengine.so`
   - Removed all "quack" references from public APIs
   - JNI signature fixes for refactored class names
   - Added LICENSE/NOTICE/THIRD_PARTY_LICENSES to AAR artifact
   - 16KB page size support for modern Android devices
+
+### Release Process
+
+For detailed release procedures, see [JSEngine Release Process](https://jungroup.atlassian.net/wiki/spaces/MobileSDK/pages/1883635786/JSEngine+Release+Process) on Confluence.
+
+**Quick Reference:**
+
+1. **Update version** in `utils.gradle`:
+   ```groovy
+   ext.jsengineVersion = "X.Y.Z"
+   ```
+
+2. **Create and push a tag**:
+   ```bash
+   # For production release to Maven Central:
+   git tag release-X.Y.Z
+   git push origin release-X.Y.Z
+
+   # For snapshot:
+   git tag vX.Y.Z-beta
+   git push origin vX.Y.Z-beta
+   ```
+
+3. **GitHub Actions** will automatically:
+   - Build the AAR
+   - Verify native libraries are included
+   - Publish to Maven Central (for release tags) or bundle artifacts (for snapshots)
+   - Upload artifacts to GitHub Release
 
 ## Legal Compliance
 
@@ -138,7 +186,7 @@ JSEngine is Apache 2.0 licensed with proper attribution:
 
 ## ProGuard/R8 Support
 
-JSEngine v1.0.0+ includes automatic ProGuard/R8 configuration:
+JSEngine v0.0.1+ includes automatic ProGuard/R8 configuration:
 
 **Automatic Configuration:**
 - Consumer ProGuard rules bundled in AAR
@@ -171,7 +219,7 @@ In `jsengine/jsengine-android/build.gradle`:
 - `compileSdkVersion` and `targetSdkVersion` must match (35)
 - `minSdkVersion` must be ≥ 21 (lower breaks native compilation)
 - `ndkVersion "28.2.13676358"` (or compatible with minSdk)
-- `namespace "com.hyprmx.jsengine.jsengine"`
+- `namespace "com.hyprmx.android.jsengine"`
 
 In `jsengine/jsengine-android/src/main/jni/CMakeLists.txt`:
 ```cmake
@@ -213,7 +261,7 @@ JavaScript objects maintain references to native heap:
 
 Native JNI methods follow the pattern:
 ```cpp
-Java_com_hyprmx_jsengine_jsengine_JSEngineContext_<methodName>
+Java_com_hyprmx_android_jsengine_JSEngineContext_<methodName>
 ```
 
 When renaming classes or packages, update both:
