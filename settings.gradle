@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "QuackJS"
-include ':QuackJS'
-include ':quack:quack-android'
+rootProject.name = "JSEngine"
+include ':jsengine:JSEngine'
+include ':jsengine:jsengine-android'

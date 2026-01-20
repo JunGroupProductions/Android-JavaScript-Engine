@@ -1,0 +1,31 @@
+JSEngine
+Copyright 2025 HyprMX
+
+This product contains modified portions of Quack, originally created by Koushik Dutta:
+  * Copyright 2015 Koushik Dutta
+  * Licensed under the Apache License, Version 2.0
+  * Source: https://github.com/koush/quack
+  * Modifications include (v1.0.0):
+    - Complete package refactoring (com.koushikdutta.quack → com.hyprmx.jsengine.jsengine)
+    - Class renaming (Quack* → JSEngine*)
+    - Module restructuring (quack-* → jsengine-*)
+    - Native library renaming (libquack.so → libjsengine.so)
+    - API cleanup: removed all "quack" references from public APIs
+    - Field renames: quackContext → jsEngineContext
+    - Method renames: quackGet → proxyGet, quackHas → proxyHas, etc.
+    - JNI signature fixes for refactored class names
+    - Maven publishing configuration
+    - 16KB page size support enhancements
+
+This product includes QuickJS JavaScript Engine:
+  * Copyright 2017-2021 Fabrice Bellard
+  * Copyright 2017-2021 Charlie Gordon
+  * Licensed under the MIT License
+  * Source: https://bellard.org/quickjs/
+  * Location: quickjs/ directory
+  * See quickjs/LICENSE for full license text
+
+This product may include Duktape JavaScript Engine:
+  * Copyright various contributors
+  * Licensed under the MIT License
+  * Included as part of the JNI bindings

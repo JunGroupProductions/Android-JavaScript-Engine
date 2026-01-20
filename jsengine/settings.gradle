@@ -1,0 +1,5 @@
+include 'jsengine-java'
+include 'jsengine-android'
+include 'jsengine-jni'
+include 'JSEngine'
+
