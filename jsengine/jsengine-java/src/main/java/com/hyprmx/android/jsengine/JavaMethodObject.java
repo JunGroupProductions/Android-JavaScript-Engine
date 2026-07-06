@@ -15,8 +15,7 @@
  */
 package com.hyprmx.android.jsengine;
 
-//import android.util.Log;
-
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -65,10 +64,14 @@ public class JavaMethodObject implements JSEngineMethodObject {
             else
                 argTypes.add(arg.getClass());
         }
+        // AccessibleObject[] capture: see JavaObject.getGetterMethod.
+        //noinspection UnnecessaryLocalVariable
+        AccessibleObject[] members = thisMethods;
         Method best = JSEngineContext.javaObjectMethodCandidates.memoize(() -> {
             Method ret = null;
             int bestScore = Integer.MAX_VALUE;
-            for (Method method: thisMethods) {
+            for (AccessibleObject member: members) {
+                Method method = (Method) member;
                 if (!method.getName().equals(target)) {
                     JSEngineMethodName annotation = method.getAnnotation(JSEngineMethodName.class);
                     if (annotation == null || !annotation.name().equals(target))
