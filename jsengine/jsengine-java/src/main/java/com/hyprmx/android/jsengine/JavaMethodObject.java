@@ -64,10 +64,7 @@ public class JavaMethodObject implements JSEngineMethodObject {
             else
                 argTypes.add(arg.getClass());
         }
-        // AccessibleObject[] capture: see JavaObject.getGetterMethod.
-        //noinspection UnnecessaryLocalVariable
-        AccessibleObject[] members = thisMethods;
-        Method best = JSEngineContext.javaObjectMethodCandidates.memoize(() -> {
+        Method best = JSEngineContext.javaObjectMethodCandidates.memoize(members -> {
             Method ret = null;
             int bestScore = Integer.MAX_VALUE;
             for (AccessibleObject member: members) {
