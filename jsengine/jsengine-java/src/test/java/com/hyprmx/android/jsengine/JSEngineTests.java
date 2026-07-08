@@ -807,18 +807,20 @@ public class JSEngineTests {
         }
     }
 
-    // this fails on android, probably something to do with the class loader.
-    @Ignore("Class.forName from JavaScript resolves through the boot classloader on Android and cannot see app classes. Pass the class directly instead - see testClassCreationExplicit.")
+    // Class.forName(String) is caller-sensitive and resolves through the boot classloader when
+    // invoked reflectively (as JSEngine does), so it can't see app classes on Android. Passing an
+    // explicit ClassLoader selects the 3-arg overload instead, which isn't caller-sensitive.
     @Test
     public void testClassCreation() throws ClassNotFoundException {
         String script =
-                "var Foo2 = JavaClass.forName('com.hyprmx.android.jsengine.JSEngineTests$Foo2');\n" +
+                "var Foo2 = JavaClass.forName('com.hyprmx.android.jsengine.JSEngineTests$Foo2', true, ClassLoader);\n" +
                         "var foo = new Foo2();\n" +
                         "foo.hello('hello world');\n";
 
         JSEngineContext quack = JSEngineContext.create();
         JavaScriptObject global = quack.getGlobalObject();
         global.set("JavaClass", Class.class);
+        global.set("ClassLoader", JSEngineTests.class.getClassLoader());
         quack.evaluate(script);
         quack.close();
     }

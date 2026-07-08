@@ -295,7 +295,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
                 return clazz.getDeclaredConstructor().newInstance();
             }
             catch (Exception e) {
-                return new IllegalArgumentException(e);
+                throw new IllegalArgumentException(e);
             }
         }
 
