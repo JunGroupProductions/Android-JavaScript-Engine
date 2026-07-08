@@ -38,14 +38,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
     }
 
     public static Method getGetterMethod(String key, Method[] methods) {
-        // Captured as AccessibleObject[] (not Method[]): R8 horizontally merges the
-        // MemoizeFunc lambda classes in this library, and merged constructors whose
-        // captures are sibling array types (Method[] here, Constructor[] in construct())
-        // share a register without a checkcast, causing a VerifyError at class load
-        // in minified consumer apps. Identical capture types make the merge safe.
-        //noinspection UnnecessaryLocalVariable
-        AccessibleObject[] members = methods;
-        return JSEngineContext.javaObjectGetter.memoize(() -> {
+        return JSEngineContext.javaObjectGetter.memoize(members -> {
             for (AccessibleObject member : members) {
                 Method method = (Method) member;
                 // name match, no args, and a return type
@@ -67,10 +60,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
     }
 
     public static Method getSetterMethod(String key, Method[] methods) {
-        // AccessibleObject[] capture: see getGetterMethod.
-        //noinspection UnnecessaryLocalVariable
-        AccessibleObject[] members = methods;
-        return JSEngineContext.javaObjectSetter.memoize(() -> {
+        return JSEngineContext.javaObjectSetter.memoize(members -> {
             for (AccessibleObject member : members) {
                 Method method = (Method) member;
                 // name match, no args, and a return type
@@ -306,10 +296,7 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
             else
                 argTypes.add(arg.getClass());
         }
-        // AccessibleObject[] capture: see getGetterMethod.
-        //noinspection UnnecessaryLocalVariable
-        AccessibleObject[] members = constructors;
-        Constructor best = JSEngineContext.javaObjectConstructorCandidates.memoize(() -> {
+        Constructor best = JSEngineContext.javaObjectConstructorCandidates.memoize(members -> {
             Constructor ret = null;
             int bestScore = Integer.MAX_VALUE;
             for (AccessibleObject member: members) {
