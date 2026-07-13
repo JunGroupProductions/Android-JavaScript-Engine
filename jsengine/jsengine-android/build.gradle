@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.vanniktech.maven.publish'
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.vanniktech.publish)
+}
 
 apply from: "${rootDir}/utils.gradle"
 
@@ -77,9 +79,9 @@ android {
 }
 
 dependencies {
-  testImplementation 'junit:junit:4.13.2'
-  androidTestImplementation 'androidx.test:runner:1.5.2'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+  testImplementation libs.junit
+  androidTestImplementation libs.androidx.test.runner
+  androidTestImplementation libs.androidx.test.espresso.core
 }
 
 // Task to copy license files into AAR assets
