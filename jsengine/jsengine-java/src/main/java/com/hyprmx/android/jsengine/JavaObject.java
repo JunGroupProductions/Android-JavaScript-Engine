@@ -38,8 +38,9 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
     }
 
     public static Method getGetterMethod(String key, Method[] methods) {
-        return JSEngineContext.javaObjectGetter.memoize(() -> {
-            for (Method method : methods) {
+        return JSEngineContext.javaObjectGetter.memoize(members -> {
+            for (AccessibleObject member : members) {
+                Method method = (Method) member;
                 // name match, no args, and a return type
                 if (method.getParameterTypes().length != 0)
                     continue;
@@ -59,8 +60,9 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
     }
 
     public static Method getSetterMethod(String key, Method[] methods) {
-        return JSEngineContext.javaObjectSetter.memoize(() -> {
-            for (Method method : methods) {
+        return JSEngineContext.javaObjectSetter.memoize(members -> {
+            for (AccessibleObject member : members) {
+                Method method = (Method) member;
                 // name match, no args, and a return type
                 if (method.getParameterTypes().length != 1)
                     continue;
@@ -280,10 +282,10 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
         Constructor[] constructors = clazz.getConstructors();
         if (constructors.length == 0) {
             try {
-                return clazz.newInstance();
+                return clazz.getDeclaredConstructor().newInstance();
             }
             catch (Exception e) {
-                return new IllegalArgumentException(e);
+                throw new IllegalArgumentException(e);
             }
         }
 
@@ -294,10 +296,11 @@ public final class JavaObject implements JSEngineObject, JSEngineJavaObject {
             else
                 argTypes.add(arg.getClass());
         }
-        Constructor best = JSEngineContext.javaObjectConstructorCandidates.memoize(() -> {
+        Constructor best = JSEngineContext.javaObjectConstructorCandidates.memoize(members -> {
             Constructor ret = null;
             int bestScore = Integer.MAX_VALUE;
-            for (Constructor constructor: constructors) {
+            for (AccessibleObject member: members) {
+                Constructor constructor = (Constructor) member;
                 // parameter count is most important
                 int score = Math.abs(argTypes.size() - constructor.getParameterTypes().length) * 1000;
                 // tiebreak by checking parameter types

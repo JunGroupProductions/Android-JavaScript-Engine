@@ -1,5 +1,13 @@
 # QuickJS Update Plan
 
+**Target Version:** 3.0.0 (isolated major release)
+
+> **Engine policy:** the vendored engine stays frozen at 2020-07-05 through all v1.x/v2.x releases. The revamp's priority is functional parity with the legacy vendored-jar setup, and a ~6-year engine jump carries behavioral risk — so it ships alone in its own major, where any regression is attributable to the engine change.
+>
+> **Decision needed before starting:** Bellard QuickJS vs [quickjs-ng](https://github.com/quickjs-ng/quickjs) (the more actively maintained fork). This choice affects the effort to port the custom `quickjs-debugger.*` files.
+>
+> **Downstream dependency:** v3.1.0 bytecode compilation must NOT ship before this release — QuickJS bytecode format is engine-version-specific.
+
 ## Current State
 
 **QuickJS Version:** 2020-07-05
@@ -13,13 +21,13 @@
 
 ## When to Update QuickJS
 
-⚠️ **DO NOT update QuickJS until AFTER JSEngine refactoring is complete and stable.**
+⚠️ **DO NOT update QuickJS until the v2.x release line is complete and stable.** (The Quack→JSEngine refactoring is already done.)
 
 **Recommended timeline:**
-1. Complete JSEngine refactoring (follow REFACTORING_PLAN.md)
-2. Test and stabilize JSEngine build
+1. Ship and stabilize the v1.x and v2.x releases (see FUTURE_RELEASES.md)
+2. Ensure the full regression test suite passes — it is the parity safety net for this update
 3. Create backup branch of working JSEngine
-4. THEN proceed with QuickJS update
+4. THEN proceed with the QuickJS update as v3.0.0
 
 ## Pre-Update Checks
 

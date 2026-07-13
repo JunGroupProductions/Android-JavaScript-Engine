@@ -1,5 +1,6 @@
 package com.hyprmx.android.jsengine;
 
+import java.lang.reflect.AccessibleObject;
 import java.util.HashMap;
 
 public class Memoize<T> {
@@ -62,6 +63,31 @@ public class Memoize<T> {
       return store.get(hash);
     }
     T ret = func.process();
+    store.put(hash, ret);
+    return ret;
+  }
+
+  // members is passed through to func.process() as a parameter rather than captured in a
+  // closure - see MemoizeArrayFunc for why. The cast is safe: callers always pass a genuine
+  // Method[]/Constructor[]/Field[], which is array-covariant with AccessibleObject[].
+  public T memoize(MemoizeArrayFunc<T> func, Object arg0, Object[] args) {
+    int hash = hashCode(args);
+    hash ^= arg0 == null ? 0 : arg0.hashCode();
+    return memoize(func, hash, (AccessibleObject[]) args);
+  }
+
+  public T memoize(MemoizeArrayFunc<T> func, Object arg0, Object[] args0, Object[] args1) {
+    int hash = hashCode(args0);
+    hash ^= hashCode(args1);
+    hash ^= arg0 == null ? 0 : arg0.hashCode();
+    return memoize(func, hash, (AccessibleObject[]) args0);
+  }
+
+  private T memoize(MemoizeArrayFunc<T> func, int hash, AccessibleObject[] members) {
+    if (store.containsKey(hash)) {
+      return store.get(hash);
+    }
+    T ret = func.process(members);
     store.put(hash, ret);
     return ret;
   }

@@ -167,6 +167,29 @@ This product contains:
 
 See [NOTICE](NOTICE) file for complete attribution.
 
+## Follow-up
+
+### Getting Help
+
+- **Documentation**: See [CLAUDE.md](CLAUDE.md) for detailed development guidelines and architecture
+- **Issues**: Report bugs or request features via GitHub Issues
+- **Release Process**: See [JSEngine Release Process](https://jungroup.atlassian.net/wiki/spaces/MobileSDK/pages/1883635786/JSEngine+Release+Process) on Confluence
+
+### Related Documentation
+
+- [ES_MODULES_PLAN.md](ES_MODULES_PLAN.md) - ES Modules support roadmap
+- [KOTLIN_API_PLAN.md](KOTLIN_API_PLAN.md) - Kotlin API enhancements
+- [WORKER_THREADS_PLAN.md](WORKER_THREADS_PLAN.md) - Worker threads implementation plan
+- [FUTURE_RELEASES.md](FUTURE_RELEASES.md) - Planned features and releases
+- [QUICKJS_UPDATE_PLAN.md](QUICKJS_UPDATE_PLAN.md) - QuickJS update strategy
+
+### Next Steps
+
+1. **Try the sample app**: Check out `jsengine/JSEngine/` for usage examples
+2. **Read the API docs**: Explore `JSEngineContext` and related classes
+3. **Customize type coercion**: Implement your own Java ↔ JavaScript conversions
+4. **Test on devices**: Verify 16KB page size compatibility on target devices
+
 ## License
 
 Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) file for details.

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fixed a crash that could occur in apps using the release (minified) version of the library.
+- `JavaObject.construct()` now throws instead of returning an `IllegalArgumentException` as the constructed value.
+
 ### Added
 - Complete package rebranding from original Quack library to JSEngine
 - Apache 2.0 license compliance with proper attribution to original author (Koushik Dutta)
