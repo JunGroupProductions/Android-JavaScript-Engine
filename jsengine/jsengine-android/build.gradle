@@ -22,6 +22,17 @@ android {
     targetCompatibility 1.8
   }
 
+  flavorDimensions "mode"
+  productFlavors {
+    dev {
+      dimension "mode"
+      ndk { abiFilters 'arm64-v8a' }
+    }
+    full {
+      dimension "mode"
+    }
+  }
+
   defaultConfig {
     minSdkVersion 21
     targetSdkVersion 35
@@ -105,7 +116,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 mavenPublishing {
     coordinates('com.hyprmx.android', 'jsengine', libraryVersion)
 
-    configure(new AndroidSingleVariantLibrary("release", true, true))
+    configure(new AndroidSingleVariantLibrary("fullRelease", true, true))
 
         pom {
           name = 'JSEngine'
