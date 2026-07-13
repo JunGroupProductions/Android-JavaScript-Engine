@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.vanniktech.maven.publish'
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.vanniktech.publish)
+}
 
 apply from: "${rootDir}/utils.gradle"
 
@@ -7,10 +9,10 @@ def libraryVersion = getLibraryVersion()
 def releaseType = getReleaseType()
 
 android {
-  compileSdkVersion 35
+  compileSdkVersion AndroidConfig.COMPILE_SDK
 
   namespace "com.hyprmx.android.jsengine"
-  ndkVersion "28.2.13676358"
+  ndkVersion AndroidConfig.NDK_VERSION
 
   sourceSets {
     main.java.srcDirs += "../jsengine-java/src/main/java/"
@@ -23,8 +25,8 @@ android {
   }
 
   defaultConfig {
-    minSdkVersion 21
-    targetSdkVersion 35
+    minSdkVersion AndroidConfig.MIN_SDK
+    targetSdkVersion AndroidConfig.TARGET_SDK
     versionCode 2
     versionName libraryVersion
     ndk {
@@ -77,9 +79,9 @@ android {
 }
 
 dependencies {
-  testImplementation 'junit:junit:4.13.2'
-  androidTestImplementation 'androidx.test:runner:1.5.2'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+  testImplementation libs.junit
+  androidTestImplementation libs.androidx.test.runner
+  androidTestImplementation libs.androidx.test.espresso.core
 }
 
 // Task to copy license files into AAR assets
