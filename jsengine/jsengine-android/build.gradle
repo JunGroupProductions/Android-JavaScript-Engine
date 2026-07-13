@@ -7,10 +7,10 @@ def libraryVersion = getLibraryVersion()
 def releaseType = getReleaseType()
 
 android {
-  compileSdkVersion 35
+  compileSdkVersion AndroidConfig.COMPILE_SDK
 
   namespace "com.hyprmx.android.jsengine"
-  ndkVersion "28.2.13676358"
+  ndkVersion AndroidConfig.NDK_VERSION
 
   sourceSets {
     main.java.srcDirs += "../jsengine-java/src/main/java/"
@@ -23,8 +23,8 @@ android {
   }
 
   defaultConfig {
-    minSdkVersion 21
-    targetSdkVersion 35
+    minSdkVersion AndroidConfig.MIN_SDK
+    targetSdkVersion AndroidConfig.TARGET_SDK
     versionCode 2
     versionName libraryVersion
     ndk {

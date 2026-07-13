@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk 35
+    compileSdk AndroidConfig.COMPILE_SDK
 
     namespace "com.hyprmx.android.jsengine.sample"
 
     defaultConfig {
-        minSdk 21
-        targetSdk 35
+        minSdk AndroidConfig.MIN_SDK
+        targetSdk AndroidConfig.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
