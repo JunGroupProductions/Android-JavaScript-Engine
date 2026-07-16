@@ -129,6 +129,10 @@ The project uses the **Vanniktech Maven Publish plugin** for Maven Central publi
 
 ### Version History
 
+- **1.0.0** - First stable release (promoted from 0.0.1 sandbox)
+  - Fixed crash in release/minified builds (R8 horizontal class merging VerifyError)
+  - Fixed `JavaObject.construct()` throwing instead of returning `IllegalArgumentException`
+
 - **0.0.1** - Initial public release
   - Complete refactoring from Quack to JSEngine
   - Package name: `com.hyprmx.android.jsengine`

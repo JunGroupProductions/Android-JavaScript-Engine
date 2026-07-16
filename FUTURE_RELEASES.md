@@ -2,10 +2,6 @@
 
 This document outlines the roadmap for future JSEngine releases with emphasis on **performance optimization** and **ANR prevention**.
 
-> **Versioning note:** `0.0.1` is a sandbox validation release of the published Maven artifacts. Once validated, it is promoted unchanged to `1.0.0` (i.e., `0.0.1` ≙ `1.0.0`). The v1.x roadmap below builds on that baseline.
->
-> **Pre-1.0.0 gate:** verify (and fix if needed) the ART `VerifyError` under baseline profiles — strict `speed-profile` verification rejects generic reflection bytecode around the `Memoize<Constructor>`/`Memoize<Method>` usage in `JSEngineContext`/`JavaObject`/`JavaMethodObject`. Check the AAR classes with `dexdump -verify` before promotion.
->
 > **Engine policy:** the vendored QuickJS stays frozen at **2020-07-05** through all v1.x/v2.x releases. The revamp's priority is functional parity with the legacy vendored-jar setup; the engine update is isolated in **v3.0.0**.
 
 ## Priority Framework
@@ -866,4 +862,4 @@ For in-depth implementation details, see:
 ---
 
 **Last Updated:** 2026-07-02
-**Current Version:** 0.0.1 (sandbox validation release — promoted unchanged to 1.0.0 once validated)
+**Current Version:** 1.0.0
