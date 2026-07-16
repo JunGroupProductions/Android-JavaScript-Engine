@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application android:label="JSEngine R8 Verify">
+    <application android:label="@string/app_name">
+
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".DemoListActivity"
+            android:exported="true"
+            android:theme="@style/Theme.JSEngineSample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+            Untouched R8 regression probe. No intent-filter and not exported: it is launched only
+            via an explicit Intent from DemoListActivity so it stays out of the launcher while
+            remaining runnable (including on minified release builds) for QA.
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity android:name=".demos.BasicUsageActivity" android:exported="false" android:theme="@style/Theme.JSEngineSample" />
+        <activity android:name=".demos.AsyncPatternsActivity" android:exported="false" android:theme="@style/Theme.JSEngineSample" />
+        <activity android:name=".demos.TypeCoercionActivity" android:exported="false" android:theme="@style/Theme.JSEngineSample" />
+        <activity android:name=".demos.MemoryManagementActivity" android:exported="false" android:theme="@style/Theme.JSEngineSample" />
+        <activity android:name=".demos.PerformanceActivity" android:exported="false" android:theme="@style/Theme.JSEngineSample" />
+        <activity android:name=".demos.ErrorHandlingActivity" android:exported="false" android:theme="@style/Theme.JSEngineSample" />
+
     </application>
 
 </manifest>
