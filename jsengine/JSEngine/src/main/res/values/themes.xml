@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Based on the platform Material theme rather than AppCompat/Material Components so the
+        sample module keeps the same (SDK-only) dependency surface as the R8 regression probe.
+    -->
+    <style name="Theme.JSEngineSample" parent="@android:style/Theme.Material.Light.DarkActionBar" />
+</resources>

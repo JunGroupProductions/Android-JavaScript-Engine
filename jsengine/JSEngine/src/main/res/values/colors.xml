@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="log_pass">#1B7F3B</color>
+    <color name="log_fail">#C62828</color>
+    <color name="log_default">#212121</color>
+    <color name="log_background">#FAFAFA</color>
+</resources>

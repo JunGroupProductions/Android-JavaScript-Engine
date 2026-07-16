@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.hyprmx.android.jsengine.sample.test", appContext.packageName)
+        assertEquals("com.hyprmx.android.jsengine.sample", appContext.packageName)
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JSEngine Samples</string>
+
+    <string name="demo_list_title">JSEngine Samples</string>
+
+    <string name="basic_usage_title">1. Basic Usage</string>
+    <string name="basic_usage_subtitle">Hello world, calling functions, globals, POJOs</string>
+
+    <string name="async_patterns_title">2. Async Patterns</string>
+    <string name="async_patterns_subtitle">Avoid ANRs: background execution &amp; promises</string>
+
+    <string name="type_coercion_title">3. Type Coercion</string>
+    <string name="type_coercion_subtitle">Numbers, enums, JSON, ByteBuffers, proxies</string>
+
+    <string name="memory_management_title">4. Memory Management</string>
+    <string name="memory_management_subtitle">Cleanup, GC, native heap accounting</string>
+
+    <string name="performance_title">5. Performance</string>
+    <string name="performance_subtitle">Batching &amp; compiled-function reuse timings</string>
+
+    <string name="error_handling_title">6. Error Handling</string>
+    <string name="error_handling_subtitle">JS &amp; Java stack traces, error coercion</string>
+
+    <string name="r8_probe_title">Internal: R8 Verify Probe</string>
+    <string name="r8_probe_subtitle">Not a demo — minified-build regression check</string>
+
+    <string name="run">Run</string>
+
+    <string name="basic_usage_desc">Evaluate scripts, call functions, expose globals, and construct a Java object from JavaScript.</string>
+    <string name="async_patterns_desc">Never block the main thread. Compare a blocking call with the background-thread pattern, then bridge a JS Promise back to the UI.</string>
+    <string name="type_coercion_desc">How values cross the Java\u2194JavaScript boundary: numbers, enums, JSON, ByteBuffers, and typed proxies.</string>
+    <string name="memory_management_desc">Always close a context. See native-heap and mapping counts drop after purge/gc.</string>
+    <string name="performance_desc">Batching and reusing a compiled function beat naive per-call evaluation. Timings in milliseconds.</string>
+    <string name="error_handling_desc">JS errors and Java exceptions surface with a spliced JS+Java stack trace; error coercion preserves the original type.</string>
+</resources>

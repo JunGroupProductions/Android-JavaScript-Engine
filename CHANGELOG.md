@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-13
+
 ### Fixed
 - Fixed a crash that could occur in apps using the release (minified) version of the library.
 - `JavaObject.construct()` now throws instead of returning an `IllegalArgumentException` as the constructed value.
