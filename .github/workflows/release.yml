@@ -50,7 +50,7 @@ jobs:
 
       - name: Build release AAR
         run: |
-          ./gradlew :jsengine:jsengine-android:assembleRelease
+          ./gradlew :jsengine:jsengine-android:assembleFullRelease
 
       - name: Run unit tests
         run: |
@@ -58,7 +58,7 @@ jobs:
 
       - name: Verify AAR contains native libraries
         run: |
-          AAR="jsengine/jsengine-android/build/outputs/aar/jsengine-android-release.aar"
+          AAR="jsengine/jsengine-android/build/outputs/aar/jsengine-android-full-release.aar"
           echo "Checking AAR contents..."
           unzip -l "$AAR" | grep "\.so" || (echo "ERROR: No .so files in AAR!" && exit 1)
           echo "Native libraries verified."
