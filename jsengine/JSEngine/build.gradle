@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -9,16 +9,22 @@ android {
     namespace "com.hyprmx.android.jsengine.sample"
 
     defaultConfig {
+        applicationId "com.hyprmx.android.jsengine.sample"
         minSdk AndroidConfig.MIN_SDK
         targetSdk AndroidConfig.TARGET_SDK
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            // Intentionally minified: this module exists to reproduce, on a real device,
+            // the R8 horizontal-class-merging VerifyError fixed by PLAYER-27424. Relies
+            // only on jsengine-android's bundled consumer-proguard-rules.pro, same as a
+            // real consumer app - do not add extra -keep rules that would mask a regression.
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -32,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation project(':jsengine:jsengine-android')
+
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.junit
     androidTestImplementation libs.androidx.test.espresso.core
